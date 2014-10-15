@@ -38,8 +38,8 @@ public class Matrix{
 
     //Sets value val at index (y, x)
     public void setValue(int y, int x, double val){
-        if(x < 0 || x >= getX() || y < 0 || y >= getY()){
-            System.err.println("Setting value matrix with wrong dimensions! " +  y + "/" + getY() + " "  + x + "/" + getX());
+        if(x < 0 || x >= getColumnSize() || y < 0 || y >= getRowSize()){
+            System.err.println("Setting value matrix with wrong dimensions! " +  y + "/" + getRowSize() + " "  + x + "/" + getColumnSize());
             //return;
         }
         myMatrix[y][x] = val;
@@ -52,8 +52,8 @@ public class Matrix{
 
     //Gets the value at index (y, x)
     public double getValue(int y, int x){
-        if(x < 0 || x >= getX() || y < 0 || y >= getY()){
-            System.err.println("Getting matrix with wrong dimensions! " +  y + "/" + getY() + " "  + x + "/" + getX());
+        if(x < 0 || x >= getColumnSize() || y < 0 || y >= getRowSize()){
+            System.err.println("Getting matrix with wrong dimensions! " +  y + "/" + getRowSize() + " "  + x + "/" + getColumnSize());
             //return 0.0f;
         }
 
@@ -74,9 +74,9 @@ public class Matrix{
     //Gets the row at index y
     public Matrix getRow(int y){
 
-        Matrix m = new Matrix(1, this.getX());
+        Matrix m = new Matrix(1, this.getColumnSize());
 
-        for(int x = 0; x < this.getX(); x++){
+        for(int x = 0; x < this.getColumnSize(); x++){
             m.setValue(0, x, this.getValue(y, x));
         }
 
@@ -86,9 +86,9 @@ public class Matrix{
     //Gets the column at index x
     public Matrix getColumn(int x){
 
-        Matrix m = new Matrix(this.getY(), 1);
+        Matrix m = new Matrix(this.getRowSize(), 1);
 
-        for(int y = 0; y < this.getY(); y++){
+        for(int y = 0; y < this.getRowSize(); y++){
             m.setValue(y, 0, this.getValue(y, x));
         }
 
@@ -97,14 +97,14 @@ public class Matrix{
 
     //Sets the row at index y to m
     public void setRow(int y, Matrix m){
-        for(int x = 0; x < m.getX(); x++){
+        for(int x = 0; x < m.getColumnSize(); x++){
             this.setValue(y, x, m.getValue(0, x));
         }
     }
 
     //Sets the column at index x to m
     public void setColumn(int x, Matrix m){
-        for(int y = 0; y < m.getY(); y++){
+        for(int y = 0; y < m.getRowSize(); y++){
             this.setValue(y, x, m.getValue(y, 0));
         }
     }
@@ -119,11 +119,11 @@ public class Matrix{
 
         double sum = 0.0;
 
-        for(int y = 0; y < this.getY(); y++){
+        for(int y = 0; y < this.getRowSize(); y++){
 
             sum = Matrix.sum(this.getRow(y));
 
-            for(int x = 0; x < this.getX(); x++){
+            for(int x = 0; x < this.getColumnSize(); x++){
                 this.setValue(y, x, this.getValue(y, x) / sum);
             }
         }
@@ -132,7 +132,7 @@ public class Matrix{
     //Normalizes the row y with value div
     public void normalizeRow(int y, double div){
 
-        for(int x = 0; x < this.getX(); x++){
+        for(int x = 0; x < this.getColumnSize(); x++){
             //System.err.println("before: " + this.getValue(y, x) + ", after: " + this.getValue(y, x) / norm);
             this.setValue(y, x, this.getValue(y, x) / div);
         }
@@ -140,21 +140,21 @@ public class Matrix{
 
     //Multiples two matrices a and b
     public static Matrix multiply(Matrix a, Matrix b){
-        if(a.getX() != b.getY()){
-            System.err.println("Can't multiply with those dimensions! " + a.getX() + " " + b.getY());
+        if(a.getColumnSize() != b.getRowSize()){
+            System.err.println("Can't multiply with those dimensions! " + a.getColumnSize() + " " + b.getRowSize());
             return null;
         }
 
-        Matrix c = new Matrix(a.getY(), b.getX());
+        Matrix c = new Matrix(a.getRowSize(), b.getColumnSize());
 
         double ans = 0;
 
-        for(int y = 0; y < a.getY(); y++){
-            for (int x = 0; x < b.getX(); x++ ) {
+        for(int y = 0; y < a.getRowSize(); y++){
+            for (int x = 0; x < b.getColumnSize(); x++ ) {
 
                 ans = 0;
 
-                for (int k = 0; k < a.getX(); k++) { // equals b.getY()
+                for (int k = 0; k < a.getColumnSize(); k++) { // equals b.getRowSize()
                     ans += a.getValue(y, k) * b.getValue(k, x);
                 }
 
@@ -170,8 +170,8 @@ public class Matrix{
 
         double sum = 0.0;
 
-        for(int y = 0; y < m.getY(); y++){
-            for(int x = 0; x < m.getX(); x++){
+        for(int y = 0; y < m.getRowSize(); y++){
+            for(int x = 0; x < m.getColumnSize(); x++){
                 sum += m.getValue(y, x);
             }
         }
@@ -182,14 +182,14 @@ public class Matrix{
     //Returns all rows summed into one row, then normalized
     public static Matrix sumRows(Matrix m){
 
-        Matrix sRows = new Matrix(1, m.getX());
+        Matrix sRows = new Matrix(1, m.getColumnSize());
         double sum = 0.0;
 
-        for(int x = 0; x < m.getX(); x++){
+        for(int x = 0; x < m.getColumnSize(); x++){
 
             sum = 0.0;
 
-            for(int y = 0; y < m.getY(); y++){
+            for(int y = 0; y < m.getRowSize(); y++){
                 sum += m.getValue(y, x);
             }
 
@@ -203,10 +203,10 @@ public class Matrix{
 
     //Returns a copy of the matrix
     public Matrix copy(){
-        Matrix m = new Matrix(this.getY(), this.getX());
+        Matrix m = new Matrix(this.getRowSize(), this.getColumnSize());
 
-        for(int y = 0; y < this.getY(); y++){
-            for(int x = 0; x < this.getX(); x++){
+        for(int y = 0; y < this.getRowSize(); y++){
+            for(int x = 0; x < this.getColumnSize(); x++){
                 m.setValue(y, x, this.getValue(y, x));
             }
         }
@@ -219,13 +219,13 @@ public class Matrix{
 
         double epsilon = 0.00001;
 
-        if(m1.getX() != m2.getX() || m1.getY() != m2.getY()){
+        if(m1.getColumnSize() != m2.getColumnSize() || m1.getRowSize() != m2.getRowSize()){
             System.err.println("Comparing matrices of different dimensions!");
             return false;
         }
 
-        for(int y = 0; y < m1.getY(); y++){
-            for(int x = 0; x < m1.getX(); x++){
+        for(int y = 0; y < m1.getRowSize(); y++){
+            for(int x = 0; x < m1.getColumnSize(); x++){
                 if(Math.abs(m1.getValue(y, x) - m2.getValue(y, x)) > epsilon || Double.isNaN(m1.getValue(y, x)) || Double.isNaN(m2.getValue(y, x))){
                     return false;
                 }
@@ -241,13 +241,13 @@ public class Matrix{
         DecimalFormat df = new DecimalFormat("0.0#######"); //df.format(
         String str = new String();
 
-        for(int y = 0; y < getY(); y++){
-            for(int x = 0; x < getX(); x++){
+        for(int y = 0; y < getRowSize(); y++){
+            for(int x = 0; x < getColumnSize(); x++){
                 str += getValue(y, x) + " ";
             }
         }
 
-        return getY() + " " + getX() + " " + str.replace(',', '.') + "\n";
+        return getRowSize() + " " + getColumnSize() + " " + str.replace(',', '.') + "\n";
     }
 
     //Returns the matrix represented with rows and columns as a string
@@ -256,8 +256,8 @@ public class Matrix{
         DecimalFormat df = new DecimalFormat("0.00");
         String str = new String();
 
-        for(int y = 0; y < getY(); y++){
-            for(int x = 0; x < getX(); x++){
+        for(int y = 0; y < getRowSize(); y++){
+            for(int x = 0; x < getColumnSize(); x++){
                 str += df.format(getValue(y, x)) + "\t";
             }
 
@@ -269,9 +269,9 @@ public class Matrix{
 
     //Fills the matrix with normalized values
     public void fill(){
-        for(int y = 0; y < getY(); y++){
-            for(int x = 0; x < getX(); x++){
-                this.setValue(y, x, 1.0 / getX());
+        for(int y = 0; y < getRowSize(); y++){
+            for(int x = 0; x < getColumnSize(); x++){
+                this.setValue(y, x, 1.0 / getColumnSize());
             }
         }
     }
