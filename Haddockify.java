@@ -1,6 +1,8 @@
 public class Haddockify {
+    TextMap tm;
 
     public static void main(String[] args) {
-        System.out.println("MY HADDOCK");
+        TextMap tm = new TextMap();
+
     }
 }
