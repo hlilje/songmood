@@ -1,11 +1,14 @@
 import java.io.File;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.List;
+import java.util.Arrays;
 
 public class Parser {
 
     private static final String PROFANITIES_SINGULAR = "txt/profanities_singular.txt";
     private static final String PROFANITIES_PLURAL   = "txt/profanities_plural.txt";
+    private static final String WORD_STRENGTHS       = "txt/word_strengths.txt";
     private Scanner sc1, sc2;
 
     public Parser() {}
@@ -63,6 +66,38 @@ public class Parser {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    // TODO This might be too slow to do multiple times
+    public Word getWord(String word) {
+        Word word;
+
+        try {
+            sc1 = new Scanner(new File(WORD_STRENGTHS));
+
+            while (sc1.hasNextLine()) {
+                String line = sc1.nextLine();
+                List<String> strList = Arrays.asList(line.split(" "));
+
+                // Check if line contains word
+                if (strList.contains("word1=" + word)) {
+                    String type = strList.get(0).split("=")[1];
+                    // Len is ignored
+                    String word = strList.get(2).split("=")[1];
+                    String pos = strList.get(3).split("=")[1];
+                    String stemmed = strList.get(4).split("=")[1];
+                    String polarity = strList.get(5).split("=")[1];
+
+                    word = new Word(type, word, pos, stemmed, polarity);
+                    break;
+                }
+            }
+            sc1.close();
+
+            return word;
+        } catch (Exception e) {
+            return null;
         }
     }
 }
