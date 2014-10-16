@@ -14,4 +14,9 @@ public class Word {
         this.stemmed = stemmed;
         this.polarity = polarity;
     }
+
+    public String toString() {
+        return "\"" + word + "\" (type: " + type + ", pos: " + pos + ", stemmed: " +
+            stemmed + ", polarity: " + polarity + ")";
+    }
 }

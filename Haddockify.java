@@ -31,5 +31,8 @@ public class Haddockify {
             System.err.println("Failed to parse plural profanities");
             return;
         }
+
+        Word testWord = p.getWord("defunct");
+        System.out.println(testWord);
     }
 }
