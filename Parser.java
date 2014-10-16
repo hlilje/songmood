@@ -69,33 +69,35 @@ public class Parser {
         }
     }
 
-    // TODO This might be too slow to do multiple times
+    // TODO This is probably too slow to do multiple times
     public Word getWord(String word) {
-        Word word;
+        Word objWord = null;
 
         try {
             sc1 = new Scanner(new File(WORD_STRENGTHS));
 
             while (sc1.hasNextLine()) {
                 String line = sc1.nextLine();
-                List<String> strList = Arrays.asList(line.split(" "));
+                String[] lineData = line.split(" ");
+
+                // Extract word here to avoid extracing more data in vain
+                String lineWord = lineData[2].split("=")[1];
 
                 // Check if line contains word
-                if (strList.contains("word1=" + word)) {
-                    String type = strList.get(0).split("=")[1];
+                if (lineWord.equals(word)) {
+                    String type     = lineData[0].split("=")[1];
                     // Len is ignored
-                    String word = strList.get(2).split("=")[1];
-                    String pos = strList.get(3).split("=")[1];
-                    String stemmed = strList.get(4).split("=")[1];
-                    String polarity = strList.get(5).split("=")[1];
+                    String pos      = lineData[3].split("=")[1];
+                    String stemmed  = lineData[4].split("=")[1];
+                    String polarity = lineData[5].split("=")[1];
 
-                    word = new Word(type, word, pos, stemmed, polarity);
+                    objWord = new Word(lineWord, type, pos, stemmed, polarity);
                     break;
                 }
             }
             sc1.close();
 
-            return word;
+            return objWord;
         } catch (Exception e) {
             return null;
         }
