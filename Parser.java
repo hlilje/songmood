@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Parser {
 
-    Scanner sc;
+    Scanner sc1, sc2;
     TextMap tm;
     int lineNumber;
 
@@ -14,18 +14,19 @@ public class Parser {
 
     public boolean readFile(String filePath) {
         try {
-            sc = new Scanner(new File(filePath));
+            sc1 = new Scanner(new File(filePath));
 
-            while (sc.hasNextLine()) {
-                sc = new Scanner(sc.nextLine());
+            while (sc1.hasNextLine()) {
+                sc2 = new Scanner(sc1.nextLine());
                 ++lineNumber;
 
-                while (sc.hasNext()) {
-                    String word = sc.next().toLowerCase();
+                while (sc2.hasNext()) {
+                    String word = sc2.next().toLowerCase();
                     tm.put(word, lineNumber);
                 }
             }
-            sc.close();
+            sc1.close();
+            sc2.close();
 
             return true;
         } catch (Exception e) {

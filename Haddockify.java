@@ -13,7 +13,12 @@ public class Haddockify {
             System.err.println("Too many arguments");
             return;
         } else {
-            p.readFile(args[0]);
+            if (!p.readFile(args[0])) {
+                System.err.println("Failed to parse file");
+                return;
+            }
         }
+
+        System.out.println(tm);
     }
 }

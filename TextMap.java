@@ -26,7 +26,39 @@ public class TextMap {
         return textMap.get(createKey(value, line));
     }
 
+    // Not in line order
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (Map.Entry<String, Integer> entry : textMap.entrySet()) {
+            String key = entry.getKey();
+            String value = getKeyValue(key);
+            int count = entry.getValue();
+            long lineNumber = getKeyLine(key);
+
+            sb.append(lineNumber + ":\t" + value + " (" + count + ")\n");
+        }
+
+        return sb.toString();
+    }
+
     private String createKey(String value, long line) {
         return line + "::" + value;
+    }
+
+    private long getKeyLine(String key) {
+        if (!key.contains("::")) return 0;
+
+        String[] strArray = key.split("::");
+
+        return Long.parseLong(strArray[0]);
+    }
+
+    private String getKeyValue(String key) {
+        if (!key.contains("::")) return "";
+
+        String[] strArray = key.split("::");
+
+        return strArray[1];
     }
 }
