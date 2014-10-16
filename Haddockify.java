@@ -1,10 +1,13 @@
 public class Haddockify {
-    TextMap tm;
-    Parser p;
+
+    private TextMap tm;
+    private ProfanityGenerator pg;
+    private Parser p;
 
     public static void main(String[] args) {
         TextMap tm = new TextMap();
-        Parser p = new Parser(tm);
+        ProfanityGenerator pg = new ProfanityGenerator();
+        Parser p = new Parser();
 
         if (args.length == 0) {
             System.err.println("You must supply which file to parse");
@@ -13,12 +16,20 @@ public class Haddockify {
             System.err.println("Too many arguments");
             return;
         } else {
-            if (!p.readFile(args[0])) {
-                System.err.println("Failed to parse file");
+            if (!p.readSourceFile(tm, args[0])) {
+                System.err.println("Failed to parse source file");
                 return;
             }
         }
 
-        System.out.println(tm);
+        if (!p.readProfanitiesSingular(pg)) {
+            System.err.println("Failed to parse singular profanities");
+            return;
+        }
+
+        if (!p.readProfanitiesPlural(pg)) {
+            System.err.println("Failed to parse plural profanities");
+            return;
+        }
     }
 }

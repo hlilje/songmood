@@ -7,6 +7,8 @@ public class TextMap {
 
     static { textMap = new HashMap<String, Integer>(); }
 
+    public TextMap() {}
+
     public void put(String value, long line) {
         String key = createKey(value, line);
 

@@ -1,18 +1,18 @@
 import java.io.File;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class Parser {
 
-    Scanner sc1, sc2;
-    TextMap tm;
-    int lineNumber;
+    private static final String PROFANITIES_SINGULAR = "txt/profanities_singular.txt";
+    private static final String PROFANITIES_PLURAL   = "txt/profanities_plural.txt";
+    private Scanner sc1, sc2;
 
-    public Parser(TextMap tm) {
-        this.tm = tm;
-        lineNumber = 0;
-    }
+    public Parser() {}
 
-    public boolean readFile(String filePath) {
+    public boolean readSourceFile(TextMap tm, String filePath) {
+        int lineNumber = 0;
+
         try {
             sc1 = new Scanner(new File(filePath));
 
@@ -27,6 +27,38 @@ public class Parser {
             }
             sc1.close();
             sc2.close();
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean readProfanitiesSingular(ProfanityGenerator pg) {
+        try {
+            sc1 = new Scanner(new File(PROFANITIES_SINGULAR));
+
+            while (sc1.hasNextLine()) {
+                String profanity = sc1.nextLine();
+                pg.addProfanitySingular(profanity);
+            }
+            sc1.close();
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean readProfanitiesPlural(ProfanityGenerator pg) {
+        try {
+            sc1 = new Scanner(new File(PROFANITIES_PLURAL));
+
+            while (sc1.hasNextLine()) {
+                String profanity = sc1.nextLine();
+                pg.addProfanityPlural(profanity);
+            }
+            sc1.close();
 
             return true;
         } catch (Exception e) {
