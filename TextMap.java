@@ -3,6 +3,7 @@ import java.util.Map;
 
 public class TextMap {
 
+    private static final String LINE_DELIMITER = "::";
     private static final Map<String, Integer> textMap;
 
     static { textMap = new HashMap<String, Integer>(); }
@@ -45,21 +46,21 @@ public class TextMap {
     }
 
     private String createKey(String value, long line) {
-        return line + "::" + value;
+        return line + LINE_DELIMITER + value;
     }
 
     private long getKeyLine(String key) {
-        if (!key.contains("::")) return 0;
+        if (!key.contains(LINE_DELIMITER)) return 0;
 
-        String[] strArray = key.split("::");
+        String[] strArray = key.split(LINE_DELIMITER);
 
         return Long.parseLong(strArray[0]);
     }
 
     private String getKeyValue(String key) {
-        if (!key.contains("::")) return "";
+        if (!key.contains(LINE_DELIMITER)) return "";
 
-        String[] strArray = key.split("::");
+        String[] strArray = key.split(LINE_DELIMITER);
 
         return strArray[1];
     }

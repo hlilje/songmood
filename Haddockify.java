@@ -1,13 +1,15 @@
 public class Haddockify {
 
-    private TextMap tm;
-    private ProfanityGenerator pg;
-    private Parser p;
+    private static TextMap tm;
+    private static ProfanityGenerator pg;
+    private static Parser p;
+    private static Interpreter in;
+    private static String filePath;
 
     public static void main(String[] args) {
-        TextMap tm = new TextMap();
-        ProfanityGenerator pg = new ProfanityGenerator();
-        Parser p = new Parser();
+        tm = new TextMap();
+        pg = new ProfanityGenerator();
+        p = new Parser();
 
         if (args.length == 0) {
             System.err.println("You must supply which file to parse");
@@ -16,7 +18,9 @@ public class Haddockify {
             System.err.println("Too many arguments");
             return;
         } else {
-            if (!p.readSourceFile(tm, args[0])) {
+            filePath = args[0];
+
+            if (!p.readSourceFile(tm, filePath)) {
                 System.err.println("Failed to parse source file");
                 return;
             }
@@ -32,7 +36,11 @@ public class Haddockify {
             return;
         }
 
+        in = new Interpreter(filePath);
+
         Word testWord = p.getWord("defunct");
         System.out.println(testWord);
+
+        in.printLineStrengths();
     }
 }

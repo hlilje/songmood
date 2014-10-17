@@ -33,7 +33,31 @@ public class Parser {
 
             return true;
         } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return false;
+        }
+    }
+
+    // Should be called repeatedly by external method with Scanner
+    public Vector<String> getSourceLineWords(Scanner sc) {
+        Vector<String> words = new Vector<String>();
+
+        try {
+            if (sc.hasNextLine()) {
+                sc1 = new Scanner(sc.nextLine());
+
+                while (sc1.hasNext()) {
+                    words.add(sc1.next().toLowerCase());
+                }
+            }
+            sc1.close();
+
+            return words;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+            return words;
         }
     }
 
@@ -49,6 +73,8 @@ public class Parser {
 
             return true;
         } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -65,6 +91,8 @@ public class Parser {
 
             return true;
         } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -101,6 +129,8 @@ public class Parser {
 
             return objWord;
         } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
