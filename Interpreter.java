@@ -66,7 +66,7 @@ public class Interpreter {
         if (word != null) {
             if (word.polarity == Word.Polarity.POSITIVE) wordStrength = 1;
             if (word.polarity == Word.Polarity.NEGATIVE) wordStrength = -1;
-            if (word.strength == Word.Strength.STRONG) wordStrength *= 3;
+            if (word.subjectivity == Word.Subjectivity.STRONG) wordStrength *= 3;
         }
 
         return wordStrength;

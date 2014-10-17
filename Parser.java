@@ -113,13 +113,13 @@ public class Parser {
 
                 // Check if line contains word
                 if (lineWord.equals(word)) {
-                    String strength = lineData[0].split("=")[1];
+                    String subjectivity = lineData[0].split("=")[1];
                     // Len is ignored
                     String pos      = lineData[3].split("=")[1];
                     String stemmed  = lineData[4].split("=")[1];
                     String polarity = lineData[5].split("=")[1];
 
-                    objWord = new Word(lineWord, Word.strToStrength(strength),
+                    objWord = new Word(lineWord, Word.strToSubjectivity(subjectivity),
                             Word.strToPosition(pos), Word.strToStemmed(stemmed),
                             Word.strToPolarity(polarity));
                     break;

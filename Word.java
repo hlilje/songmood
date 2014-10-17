@@ -1,6 +1,6 @@
 public class Word {
 
-    public enum Strength {
+    public enum Subjectivity {
         STRONG,
         WEAK,
         UNKNOWN
@@ -23,36 +23,36 @@ public class Word {
     }
 
     public String word;
-    public Strength strength;
+    public Subjectivity subjectivity;
     public Position position;
     public boolean stemmed;
     public Polarity polarity;
 
-    public Word(String word, Strength strength, Position position, boolean stemmed,
+    public Word(String word, Subjectivity subjectivity, Position position, boolean stemmed,
             Polarity polarity) {
         this.word = word;
-        this.strength = strength;
+        this.subjectivity = subjectivity;
         this.position = position;
         this.stemmed = stemmed;
         this.polarity = polarity;
     }
 
-    public static Strength strToStrength(String strStrength) {
-        Strength strength;
+    public static Subjectivity strToSubjectivity(String strSubjectivity) {
+        Subjectivity subjectivity;
 
-        switch (strStrength) {
+        switch (strSubjectivity) {
             case "strongsubj":
-                strength = Strength.STRONG;
+                subjectivity = Subjectivity.STRONG;
                 break;
             case "weaksubj":
-                strength = Strength.WEAK;
+                subjectivity = Subjectivity.WEAK;
                 break;
             default:
-                strength = Strength.UNKNOWN;
+                subjectivity = Subjectivity.UNKNOWN;
                 break;
         }
 
-        return strength;
+        return subjectivity;
     }
 
     public static Position strToPosition(String strPosition) {
@@ -123,7 +123,7 @@ public class Word {
     }
 
     public String toString() {
-        return "\"" + word + "\" (strength: " + strength + ", position: " + position +
+        return "\"" + word + "\" (strength: " + subjectivity + ", position: " + position +
             ", stemmed: " + stemmed + ", polarity: " + polarity + ")";
     }
 }
