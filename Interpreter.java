@@ -6,14 +6,16 @@ public class Interpreter {
 
     private String filePath;
     private Parser p;
+    private ProfanityGenerator pg;
 
     public Interpreter(String filePath) {
         this.filePath = filePath;
 
         p = new Parser();
+        pg = new ProfanityGenerator();
     }
 
-    public boolean printLineStrengths() {
+    public boolean printLines() {
         try {
             int lineNumber = 0;
             Scanner sc = new Scanner(new File(filePath));
@@ -21,17 +23,26 @@ public class Interpreter {
 
             while (sc.hasNextLine()) {
                 int lineStrength = 0;
+
                 ++lineNumber;
                 words = p.getSourceLineWords(sc);
 
                 for (String word : words) {
-                    lineStrength += getWordStrength(word);
-                    System.out.print(word + " ");
+                    Word objWord = p.getWord(word);
+                    int wordStrength = getWordStrength(objWord);
+
+                    lineStrength += wordStrength;
+
+                    if (wordStrength < 0) {
+                        if (objWord != null && objWord.position == Word.Position.NOUN)
+                            System.out.print(pg.swearSingular() + " ");
+                    } else {
+                        System.out.print(word + " ");
+                    }
                 }
 
-                System.out.println();
-                System.out.println("Line: " + lineNumber + " Strength: " +
-                        lineStrength);
+                System.out.println("\nLine: " + lineNumber + " Strength: " +
+                        lineStrength + "\n");
             }
             sc.close();
 
@@ -43,9 +54,8 @@ public class Interpreter {
         }
     }
 
-    private int getWordStrength(String strWord) {
+    private int getWordStrength(Word word) {
         int wordStrength = 0;
-        Word word = p.getWord(strWord);
 
         if (word != null) {
             if (word.polarity == Word.Polarity.POSITIVE) wordStrength = 1;

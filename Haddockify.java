@@ -41,6 +41,6 @@ public class Haddockify {
         Word testWord = p.getWord("defunct");
         System.out.println(testWord);
 
-        in.printLineStrengths();
+        in.printLines();
     }
 }

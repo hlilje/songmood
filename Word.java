@@ -24,15 +24,15 @@ public class Word {
 
     public String word;
     public Strength strength;
-    public Position pos;
+    public Position position;
     public boolean stemmed;
     public Polarity polarity;
 
-    public Word(String word, Strength strength, Position pos, boolean stemmed,
+    public Word(String word, Strength strength, Position position, boolean stemmed,
             Polarity polarity) {
         this.word = word;
         this.strength = strength;
-        this.pos = pos;
+        this.position = position;
         this.stemmed = stemmed;
         this.polarity = polarity;
     }
@@ -123,7 +123,7 @@ public class Word {
     }
 
     public String toString() {
-        return "\"" + word + "\" (strength: " + strength + ", pos: " + pos + ", stemmed: " +
-            stemmed + ", polarity: " + polarity + ")";
+        return "\"" + word + "\" (strength: " + strength + ", position: " + position +
+            ", stemmed: " + stemmed + ", polarity: " + polarity + ")";
     }
 }
