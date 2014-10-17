@@ -36,6 +36,8 @@ public class Interpreter {
                     if (wordStrength < 0 && objWord != null) {
                         if (objWord.position == Word.Position.ADJECTIVE)
                             System.out.print(pg.swearSingular() + "y ");
+                        if (objWord.position == Word.Position.ADVERB)
+                            System.out.print(pg.swearSingular() + "ingly ");
                         if (objWord.position == Word.Position.NOUN)
                             System.out.print(pg.swearSingular() + " ");
                         if (objWord.position == Word.Position.VERB)
