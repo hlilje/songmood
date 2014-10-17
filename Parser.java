@@ -8,7 +8,7 @@ public class Parser {
 
     private static final String PROFANITIES_SINGULAR = "txt/profanities_singular.txt";
     private static final String PROFANITIES_PLURAL   = "txt/profanities_plural.txt";
-    private static final String WORD_STRENGTHS       = "txt/word_strengths.txt";
+    private static final String WORD_CLASSIFICATIONS = "txt/word_classifications.txt";
     private Scanner sc1, sc2;
 
     public Parser() {}
@@ -102,7 +102,7 @@ public class Parser {
         Word objWord = null;
 
         try {
-            sc1 = new Scanner(new File(WORD_STRENGTHS));
+            sc1 = new Scanner(new File(WORD_CLASSIFICATIONS));
 
             while (sc1.hasNextLine()) {
                 String line = sc1.nextLine();
