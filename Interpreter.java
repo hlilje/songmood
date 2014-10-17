@@ -33,9 +33,13 @@ public class Interpreter {
 
                     lineStrength += wordStrength;
 
-                    if (wordStrength < 0) {
-                        if (objWord != null && objWord.position == Word.Position.NOUN)
+                    if (wordStrength < 0 && objWord != null) {
+                        if (objWord.position == Word.Position.ADJECTIVE)
+                            System.out.print(pg.swearSingular() + "y ");
+                        if (objWord.position == Word.Position.NOUN)
                             System.out.print(pg.swearSingular() + " ");
+                        if (objWord.position == Word.Position.VERB)
+                            System.out.print(pg.swearSingular() + "ing ");
                     } else {
                         System.out.print(word + " ");
                     }
