@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.text.*;
 
+//A Matrix class with support for lots of functions
 public class Matrix{
 
     private double myMatrix[][];

@@ -2,9 +2,15 @@ import java.util.Vector;
 import java.util.HashMap;
 import java.util.Collections;
 
+//Classifier which determines whether the probability of a document belonging to a certain class
 public class NaiveBayes {
 
     public NaiveBayes() {}
+
+    //Trains the variables of our NaiveBayes according to our training data
+    public void train(){
+        //TODO
+    }
 
     private double applyMultinomialNB(int numClasses,
             HashMap<String, Integer> vocabulary, Vector<Double> prior,
@@ -28,5 +34,10 @@ public class NaiveBayes {
 
         // Return the highest probability
         return Collections.max(score);
+    }
+
+    //Scales a profanity according to its severity
+    private double profanitySeverity(){
+        //TODO
     }
 }
