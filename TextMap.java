@@ -1,6 +1,13 @@
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * TODO This class should either be removed completely or changed
+ * to be used as a wrapper HashMap in some useful way.
+ *
+ * Currently stores hashed words with their line number and keeps
+ * track of their number of occurrences on that line.
+ */
 public class TextMap {
 
     private static final String LINE_DELIMITER = "::";

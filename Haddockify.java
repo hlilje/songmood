@@ -11,6 +11,7 @@ public class Haddockify {
         pg = new ProfanityGenerator();
         p = new Parser();
 
+        // Expects the source text to Haddockify as the first argument
         if (args.length == 0) {
             System.err.println("You must supply which file to parse");
             return;
@@ -26,21 +27,19 @@ public class Haddockify {
             }
         }
 
+        // Read all the singular Haddock profanities
         if (!p.readProfanitiesSingular(pg)) {
             System.err.println("Failed to parse singular profanities");
             return;
         }
 
+        // Read all the plural Haddock profanities
         if (!p.readProfanitiesPlural(pg)) {
             System.err.println("Failed to parse plural profanities");
             return;
         }
 
         in = new Interpreter(filePath);
-
-        Word testWord = p.getWord("defunct");
-        System.out.println(testWord);
-
-        in.printLines();
+        in.printLines(); // Generate Haddockified sentences
     }
 }

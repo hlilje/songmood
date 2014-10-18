@@ -2,6 +2,10 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.Vector;
 
+/**
+ * Methods for interpreting and doing something interesting
+ * with the parsed data.
+ */
 public class Interpreter {
 
     private String filePath;
@@ -15,6 +19,10 @@ public class Interpreter {
         pg = new ProfanityGenerator();
     }
 
+    /*
+     * Generates sentences with negative words replaced with random
+     * Haddock profanities.
+     */
     public boolean printLines() {
         try {
             int lineNumber = 0;
@@ -60,6 +68,10 @@ public class Interpreter {
         }
     }
 
+    /*
+     * Returns a number indicating 'strength' of a word, where
+     * a negative number represents a negative word.
+     */
     private int getWordStrength(Word word) {
         int wordStrength = 0;
 

@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/*
+ * Methods for parsing the text files.
+ */
 public class Parser {
 
     private static final String PROFANITIES_SINGULAR = "txt/profanities_singular.txt";
@@ -14,6 +17,13 @@ public class Parser {
 
     public Parser() {}
 
+    /*
+     * TODO This method is currently not used.
+     *
+     * Reads the source text file to Haddockify and puts the
+     * words into the TextMap.
+     * Returns true if successful.
+     */
     public boolean readSourceFile(TextMap tm, String filePath) {
         int lineNumber = 0;
         boolean successful = false;
@@ -44,7 +54,13 @@ public class Parser {
         return successful;
     }
 
-    // Should be called repeatedly by external method with Scanner
+    /*
+     * Reads one line from the source text file and returnes the word
+     * in a Vector.
+     * Should be called repeatedly by external method with Scanner to
+     * avoid opening/closing for each line.
+     * Returns true if successful.
+     */
     public Vector<String> getSourceLineWords(Scanner sc) {
         Vector<String> words = new Vector<String>();
 
@@ -65,6 +81,10 @@ public class Parser {
         return words;
     }
 
+    /*
+     * Reads all the singular Haddock profanities into the ProfanityGenerator.
+     * Returns true if successful.
+     */
     public boolean readProfanitiesSingular(ProfanityGenerator pg) {
         boolean successful = false;
 
@@ -86,6 +106,10 @@ public class Parser {
         return successful;
     }
 
+    /*
+     * Reads all the plural Haddock profanities into the ProfanityGenerator.
+     * Returns true if successful.
+     */
     public boolean readProfanitiesPlural(ProfanityGenerator pg) {
         boolean successful = false;
 
@@ -108,7 +132,13 @@ public class Parser {
         return successful;
     }
 
-    // TODO This is probably too slow to do multiple times
+    /*
+     * TODO This is probably too slow to do multiple times.
+     *
+     * Returns a Word object created with the info stored in the
+     * classifications text file.
+     * Returns null if the word is not found.
+     */
     public Word getWord(String word) {
         Word objWord = null;
         boolean successful = false;
@@ -148,10 +178,15 @@ public class Parser {
         return objWord;
     }
 
-    public Vector<String> readTokes(HashMap<String, Integer> vocabulary,
+    /*
+     * Returns a complete list of tokens (words) from the given source
+     * file provided they are present in the supplied vocabulary.
+     */
+    public Vector<String> readTokens(HashMap<String, Integer> vocabulary,
             String fileName) {
         Vector<String> tokens = new Vector<String>();
 
+        // TODO Should only add unique words to the list
         try {
             sc1 = new Scanner(new File(fileName));
 
