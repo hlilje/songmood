@@ -4,6 +4,7 @@ public class Haddockify {
     private static ProfanityGenerator pg;
     private static Parser p;
     private static Interpreter in;
+    private static NaiveBayes nb;
     private static String filePath;
 
     public static void main(String[] args) {
@@ -21,10 +22,10 @@ public class Haddockify {
         } else {
             filePath = args[0];
 
-            if (!p.readSourceFile(tm, filePath)) {
+            /*if (!p.readSourceFile(tm, filePath)) {
                 System.err.println("Failed to parse source file");
                 return;
-            }
+            }*/
         }
 
         // Read all the singular Haddock profanities
@@ -39,7 +40,10 @@ public class Haddockify {
             return;
         }
 
-        in = new Interpreter(filePath);
-        in.printLines(); // Generate Haddockified sentences
+        nb = new NaiveBayes();
+        nb.train();
+        //nb.applyMultinomialClassification(filePath, etc etc);
+
+        //TODO use the interpreter to add haddock profanities based on the probability
     }
 }

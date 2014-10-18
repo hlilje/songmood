@@ -8,27 +8,43 @@ import java.util.Collections;
  */
 public class NaiveBayes {
 
-    public NaiveBayes() {}
+    private Parser pr;
+    private TextMap profanities;
+
+    public NaiveBayes() {
+        pr = new Parser();
+
+        //Generates a textmap from our word classifications
+        profanities = pr.generateTextMap(Parser.WORD_CLASSIFICATIONS_PROFANITIES);
+    }
 
     /*
      * Trains the variables of our NaiveBayes according to our training data.
      */
     public void train() {
-        // TODO
+
+        if(profanities == null){
+            System.err.println("NEIN!");
+            return;
+        }
+
+        profanities = pr.countWordOccurences(Parser.TRAINING_TEXT_PROFANE, profanities);
     }
 
     /*
      * Applies the multinomial naive Bayes algorithm and returns the highest
      * probability.
      */
-    private double applyMultinomialNB(int numClasses,
+    private double applyMultinomialClassification(String fileName, int numClasses,
             HashMap<String, Integer> vocabulary, Vector<Double> prior,
-            Matrix condProb, String fileName) {
+            Matrix condProb) {
         // Extract all the tokens of the document
         Parser p = new Parser();
         Vector<String> tokens = p.readTokens(vocabulary, fileName);
 
         Vector<Double> score = new Vector<Double>();
+
+        //TODO check whether our tokens are included in our profanities, check frequency, compute bayes
 
         for (int i=0; i<numClasses; ++i) {
             score.add(i, Math.log(prior.get(i)));
@@ -48,7 +64,5 @@ public class NaiveBayes {
     /*
      * Scales a profanity according to its severity.
      */
-    private double profanitySeverity() {
-        // TODO
-    }
+    //private double profanitySeverity() {}
 }

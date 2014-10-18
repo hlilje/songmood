@@ -10,48 +10,106 @@ import java.util.HashMap;
  */
 public class Parser {
 
-    private static final String PROFANITIES_SINGULAR = "txt/profanities_singular.txt";
-    private static final String PROFANITIES_PLURAL   = "txt/profanities_plural.txt";
-    private static final String WORD_CLASSIFICATIONS = "txt/word_classifications.txt";
+    public static final String PROFANITIES_SINGULAR = "txt/profanities_singular.txt";
+    public static final String PROFANITIES_PLURAL   = "txt/profanities_plural.txt";
+    public static final String WORD_CLASSIFICATIONS = "txt/word_classifications.txt";
+    public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
+
+    public static final String [] TRAINING_TEXT_PROFANE = {"txt/get_low.txt"};
+    public static final String [] TRAINING_TEXT_NEUTRAL = {"TODO"};
+
+    //Global scanners?
     private Scanner sc1, sc2;
 
     public Parser() {}
 
     /*
-     * TODO This method is currently not used.
-     *
-     * Reads the source text file to Haddockify and puts the
-     * words into the TextMap.
-     * Returns true if successful.
+     * Takes a file of word classifications and parses them
+     * Returns a TextMap of those words
      */
-    public boolean readSourceFile(TextMap tm, String filePath) {
-        int lineNumber = 0;
-        boolean successful = false;
+    public TextMap generateTextMap(String filePath) {
+
+        TextMap tm = new TextMap();
+        Scanner sc;
 
         try {
-            sc1 = new Scanner(new File(filePath));
+            sc = new Scanner(new File(filePath));
 
-            while (sc1.hasNextLine()) {
-                sc2 = new Scanner(sc1.nextLine());
-                ++lineNumber;
+            System.err.println("Generating TextMap... Estimated time: heat death of universe.");
 
-                while (sc2.hasNext()) {
-                    String word = sc2.next().toLowerCase();
-                    tm.put(word, lineNumber);
-                }
+            while (sc.hasNextLine()) {
+
+                String line = sc.nextLine();
+                
+                //Gets a string of the word we are currently parsing
+                String word = line.split(" ")[2].split("=")[1];
+
+                //Converts the word into a Word object and puts it in the TextMap
+                tm.put(word, getWord(line));
             }
-            sc1.close();
-            sc2.close();
 
-            successful = true;
+            //sc.close();
+
         } catch (Exception e) {
+            System.err.println("Error in generateTextMap");
             System.err.println(e.getMessage());
             e.printStackTrace();
+            return null;
         }
 
-        sc1.close();
-        sc2.close();
-        return successful;
+        sc.close();
+        return tm;
+    }
+
+    /*
+     * Takes an array of strings containing file paths, and a TextMap.
+     * Increments the occurence if it finds a word contained in the TextMap.
+     * Returns the TextMap.
+     */
+    public TextMap countWordOccurences(String [] filePaths, TextMap tm){
+        
+        //Returns the file if length is zero
+        if(filePaths.length == 0){
+            System.err.println("mapWordOccurences cannot recieve an empty array for filenames");
+            return tm;
+        }
+
+        try {
+
+            //For each training file
+            for(int i = 0; i < filePaths.length; i++){
+
+                sc1 = new Scanner(new File(filePaths[i]));
+
+                while (sc1.hasNextLine()) {
+
+                    String[] words = sc1.nextLine().split(" ");
+
+                    for(int j = 0; j < words.length; j++){
+
+                        //Replaces all characters which might cause us to miss the key
+                        words[j] = words[j].replaceAll("[?!,\\.]", "");
+
+                        //For each word, if it is in the TextMap increment the count
+                        if(tm.has(words[j])){
+
+                            //TODO only counts negatives right now FIXME later
+                            tm.addCountNegative(words[j]);
+                        }
+                    }
+                }
+                
+                sc1.close();
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error in countWordOccurences");
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+        return tm;
     }
 
     /*

@@ -7,11 +7,19 @@ import java.util.Map;
  */
 public class TextMap {
 
+    //Total number of counts for all words
+    private int totalCount;
+
+    private static final float smoothing = 1;
+
     private static final Map<String, Word> textMap;
 
+    //Shouldn't this be in the constructor?
     static { textMap = new HashMap<String, Word>(); }
 
-    public TextMap() {}
+    public TextMap() {
+        totalCount = 0;
+    }
 
     public void put(String strWord, Word objWord) {
         textMap.put(strWord, objWord);
@@ -25,27 +33,54 @@ public class TextMap {
         return textMap.containsKey(word);
     }
 
-    public void addPositive(String word) {
+    public void addCountPositive(String word) {
+
+        totalCount++;
+
         if (has(word)) textMap.get(word).addPositive();
     }
 
-    public void addNegative(String word) {
+    public void addCountNegative(String word) {
+
+        totalCount++;
+
         if (has(word)) textMap.get(word).addNegative();
     }
 
-    public int countPositive(String word) {
+    //Returns frequency (currently both good and bad)
+    //Normalized so missing words don't return zero
+    public float getFrequency(String word){
+        return (getCount(word) + smoothing) / (getTotalCount() + smoothing);
+    }
+
+    public int getCount(String word) {
+        if (!has(word)) return 0;
+
+        return getCountPositive(word) + getCountNegative(word);
+    }
+
+    public int getTotalCount() {
+
+        return totalCount;
+    }
+
+    public int getCountPositive(String word) {
         if (!has(word)) return 0;
 
         return textMap.get(word).numPositive;
     }
 
-    public int countNegative(String word) {
+    public int getCountNegative(String word) {
         if (!has(word)) return 0;
 
         return textMap.get(word).numNegative;
     }
 
     public void resetCount(String word) {
+
+        //Removes previous counts from total
+        totalCount -= (textMap.get(word).numPositive + textMap.get(word).numNegative);
+        
         if (has(word)) textMap.get(word).resetCount();
     }
 

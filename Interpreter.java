@@ -26,6 +26,8 @@ public class Interpreter {
     public boolean printLines() {
         try {
             int lineNumber = 0;
+
+            //Reads in a file
             Scanner sc = new Scanner(new File(filePath));
             Vector<String> words;
 
@@ -35,6 +37,8 @@ public class Interpreter {
                 ++lineNumber;
                 words = p.getSourceLineWords(sc);
 
+                //For each word in the file, do lots of things
+                //Refactor or something
                 for (String word : words) {
                     Word objWord = p.getWord(word);
                     int wordStrength = getWordStrength(objWord);
