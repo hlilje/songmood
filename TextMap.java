@@ -2,73 +2,65 @@ import java.util.HashMap;
 import java.util.Map;
 
 /*
- * TODO This class should either be removed completely or changed
- * to be used as a wrapper HashMap in some useful way.
- *
- * Currently stores hashed words with their line number and keeps
- * track of their number of occurrences on that line.
+ * a hash map implementation which stores all the words present
+ * int the text file of word classifications.
  */
 public class TextMap {
 
-    private static final String LINE_DELIMITER = "::";
-    private static final Map<String, Integer> textMap;
+    private static final Map<String, Word> textMap;
 
-    static { textMap = new HashMap<String, Integer>(); }
+    static { textMap = new HashMap<String, Word>(); }
 
     public TextMap() {}
 
-    public void put(String value, long line) {
-        String key = createKey(value, line);
-
-        if (!has(value, line))
-            textMap.put(key, 1);
-        else
-            textMap.put(key, textMap.get(key) + 1);
+    public void put(String strWord, Word objWord) {
+        textMap.put(strWord, objWord);
     }
 
-    public boolean has(String value, long line) {
-        return textMap.containsKey(createKey(value, line));
+    public Word get(String word) {
+        return textMap.get(word);
     }
 
-    public int count(String value, long line) {
-        if (!has(value, line)) return 0;
+    public boolean has(String word) {
+        return textMap.containsKey(word);
+    }
 
-        return textMap.get(createKey(value, line));
+    public void addPositive(String word) {
+        if (has(word)) textMap.get(word).addPositive();
+    }
+
+    public void addNegative(String word) {
+        if (has(word)) textMap.get(word).addNegative();
+    }
+
+    public int countPositive(String word) {
+        if (!has(word)) return 0;
+
+        return textMap.get(word).numPositive;
+    }
+
+    public int countNegative(String word) {
+        if (!has(word)) return 0;
+
+        return textMap.get(word).numNegative;
+    }
+
+    public void resetCount(String word) {
+        if (has(word)) textMap.get(word).resetCount();
     }
 
     // Not in line order
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (Map.Entry<String, Integer> entry : textMap.entrySet()) {
+        for (Map.Entry<String, Word> entry : textMap.entrySet()) {
             String key = entry.getKey();
-            String value = getKeyValue(key);
-            int count = entry.getValue();
-            long lineNumber = getKeyLine(key);
+            Word word = entry.getValue();
 
-            sb.append(lineNumber + ":\t" + value + " (" + count + ")\n");
+            sb.append(key+ ":\tNegative: " + word.numNegative + " Positive: " +
+                    word.numPositive + "\n");
         }
 
         return sb.toString();
-    }
-
-    private String createKey(String value, long line) {
-        return line + LINE_DELIMITER + value;
-    }
-
-    private long getKeyLine(String key) {
-        if (!key.contains(LINE_DELIMITER)) return 0;
-
-        String[] strArray = key.split(LINE_DELIMITER);
-
-        return Long.parseLong(strArray[0]);
-    }
-
-    private String getKeyValue(String key) {
-        if (!key.contains(LINE_DELIMITER)) return "";
-
-        String[] strArray = key.split(LINE_DELIMITER);
-
-        return strArray[1];
     }
 }
