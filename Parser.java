@@ -3,6 +3,7 @@ import java.util.Scanner;
 import java.util.Vector;
 import java.util.List;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Parser {
 
@@ -15,6 +16,7 @@ public class Parser {
 
     public boolean readSourceFile(TextMap tm, String filePath) {
         int lineNumber = 0;
+        boolean successful = false;
 
         try {
             sc1 = new Scanner(new File(filePath));
@@ -31,12 +33,15 @@ public class Parser {
             sc1.close();
             sc2.close();
 
-            return true;
+            successful = true;
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
-            return false;
         }
+
+        sc1.close();
+        sc2.close();
+        return successful;
     }
 
     // Should be called repeatedly by external method with Scanner
@@ -51,17 +56,18 @@ public class Parser {
                     words.add(sc1.next().toLowerCase());
                 }
             }
-            sc1.close();
-
-            return words;
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
-            return words;
         }
+
+        sc1.close();
+        return words;
     }
 
     public boolean readProfanitiesSingular(ProfanityGenerator pg) {
+        boolean successful = false;
+
         try {
             sc1 = new Scanner(new File(PROFANITIES_SINGULAR));
 
@@ -69,17 +75,20 @@ public class Parser {
                 String profanity = sc1.nextLine();
                 pg.addProfanitySingular(profanity);
             }
-            sc1.close();
 
-            return true;
+            successful = true;
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
-            return false;
         }
+
+        sc1.close();
+        return successful;
     }
 
     public boolean readProfanitiesPlural(ProfanityGenerator pg) {
+        boolean successful = false;
+
         try {
             sc1 = new Scanner(new File(PROFANITIES_PLURAL));
 
@@ -89,17 +98,20 @@ public class Parser {
             }
             sc1.close();
 
-            return true;
+            successful = true;
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
-            return false;
         }
+
+        sc1.close();
+        return successful;
     }
 
     // TODO This is probably too slow to do multiple times
     public Word getWord(String word) {
         Word objWord = null;
+        boolean successful = false;
 
         try {
             sc1 = new Scanner(new File(WORD_CLASSIFICATIONS));
@@ -125,13 +137,43 @@ public class Parser {
                     break;
                 }
             }
-            sc1.close();
 
-            return objWord;
+            successful = true;
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
-            return null;
         }
+
+        sc1.close();
+        return objWord;
+    }
+
+    public Vector<String> readTokes(HashMap<String, Integer> vocabulary,
+            String fileName) {
+        Vector<String> tokens = new Vector<String>();
+
+        try {
+            sc1 = new Scanner(new File(fileName));
+
+            while (sc1.hasNextLine()) {
+                sc2 = new Scanner(sc1.nextLine());
+
+                while (sc2.hasNext()) {
+                    String word = sc2.next().toLowerCase();
+
+                    // Skip words not in the vocabulary
+                    if (vocabulary.containsKey(word)) {
+                        tokens.add(word);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+        sc1.close();
+        sc2.close();
+        return tokens;
     }
 }
