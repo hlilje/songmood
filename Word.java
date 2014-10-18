@@ -1,11 +1,17 @@
+/*
+ * Represents a single word with the information contained in
+ * the classifications list.
+ */
 public class Word {
 
+    // Level of word subjectivity
     public enum Subjectivity {
         STRONG,
         WEAK,
         UNKNOWN
     }
 
+    // Which position in a sentence the word would fit in
     public enum Position {
         ANY,
         ADJECTIVE,
@@ -15,6 +21,7 @@ public class Word {
         UNKNOWN
     }
 
+    // Level of word polarity
     public enum Polarity {
         POSITIVE,
         NEGATIVE,
@@ -28,8 +35,8 @@ public class Word {
     public boolean stemmed;
     public Polarity polarity;
 
-    public Word(String word, Subjectivity subjectivity, Position position, boolean stemmed,
-            Polarity polarity) {
+    public Word(String word, Subjectivity subjectivity, Position position,
+            boolean stemmed, Polarity polarity) {
         this.word = word;
         this.subjectivity = subjectivity;
         this.position = position;
@@ -37,6 +44,10 @@ public class Word {
         this.polarity = polarity;
     }
 
+    /*
+     * Returns a Subjectivity enum from the given subjectivity string.
+     * Returns enum UNKNOWN if the string does not match.
+     */
     public static Subjectivity strToSubjectivity(String strSubjectivity) {
         Subjectivity subjectivity;
 
@@ -55,6 +66,10 @@ public class Word {
         return subjectivity;
     }
 
+    /*
+     * Returns a Position enum from the given position string.
+     * Returns enum UNKNOWN if the string does not match.
+     */
     public static Position strToPosition(String strPosition) {
         Position position;
 
@@ -83,6 +98,10 @@ public class Word {
     }
 
 
+    /*
+     * Returns true if the given string matches the 'true pattern'.
+     * Returns false if the pattern does not match.
+     */
     public static boolean strToStemmed(String strStemmed) {
         boolean stemmed;
 
@@ -101,6 +120,10 @@ public class Word {
         return stemmed;
     }
 
+    /*
+     * Returns a Polarity enum from the given polarity string.
+     * Returns enum UNKNOWN if the string does not match.
+     */
     public static Polarity strToPolarity(String strPolarity) {
         Polarity polarity;
 
