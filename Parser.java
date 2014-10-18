@@ -185,8 +185,10 @@ public class Parser {
     public Vector<String> readTokens(HashMap<String, Integer> vocabulary,
             String fileName) {
         Vector<String> tokens = new Vector<String>();
+        // Keep track of what has been added
+        HashMap<String, Boolean> addedTokens = new HashMap<String, Boolean>();
 
-        // TODO Should only add unique words to the list
+        // TODO Should this only add unique tokens?
         try {
             sc1 = new Scanner(new File(fileName));
 
@@ -196,9 +198,11 @@ public class Parser {
                 while (sc2.hasNext()) {
                     String word = sc2.next().toLowerCase();
 
-                    // Skip words not in the vocabulary
-                    if (vocabulary.containsKey(word)) {
+                    // Skip words not in the vocabulary and duplicates
+                    if (vocabulary.containsKey(word) &&
+                            !addedTokens.containsKey(word)) {
                         tokens.add(word);
+                        addedTokens.put(word, true);
                     }
                 }
             }
