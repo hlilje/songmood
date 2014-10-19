@@ -50,8 +50,8 @@ public class Parser {
                 //Gets a string of the word we are currently parsing
                 String word = lineData[colWord].split("=")[1];
 
-                //Converts the word into a Word object and puts it in the WordMap
                 wm.put(word, createWord(lineData));
+                wm.put(word, getWord(word));
             }
 
         } catch (Exception e) {
@@ -215,7 +215,7 @@ public class Parser {
         Scanner sc;
 
         try {
-            sc = new Scanner(new File(WORD_CLASSIFICATIONS));
+            sc1 = new Scanner(new File(WORD_CLASSIFICATIONS_PROFANITIES));
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
