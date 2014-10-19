@@ -50,8 +50,7 @@ public class Parser {
                 //Gets a string of the word we are currently parsing
                 String word = lineData[colWord].split("=")[1];
 
-                wm.put(word, createWord(lineData));
-                wm.put(word, getWord(word));
+                wm.put(word, getWordFromLine(line));
             }
 
         } catch (Exception e) {
@@ -200,6 +199,26 @@ public class Parser {
         }
 
         return successful;
+    }
+
+    public Word getWordFromLine(String line) {
+      Word objWord = null;
+      try {
+        String []data = line.split(" ");
+        String subj = data[0].split("=")[1];
+        String word = data[2].split("=")[1];
+        String pos = data[3].split("=")[1];
+        String stemmed = data[4].split("=")[1];
+        String polarity = data[5].split("=")[1];
+        objWord = new Word(word, Word.strToSubjectivity(subj),
+            Word.strToPosition(pos), Word.strToStemmed(stemmed),
+            Word.strToPolarity(polarity));
+      } catch (Exception e) {
+        System.err.println("Error when parsing line for a word");
+        e.printStackTrace();
+        System.exit(1);
+      }
+      return objWord;
     }
 
     /*
