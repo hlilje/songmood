@@ -18,6 +18,8 @@ public class Parser {
     public static final String [] TRAINING_TEXT_PROFANE         = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt", "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt", "txt/negative/dance_with_the_devil.txt"};
     public static final String [] TRAINING_TEXT_NEUTRAL         = {"txt/neutral/willsmith.txt"};
 
+    private static final ArrayList<String> negations = new ArrayList<String>();
+ 
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
     private static int colLen      = 1; // Not used
@@ -26,7 +28,21 @@ public class Parser {
     private static int colStemmed  = 4;
     private static int colPolarity = 5;
 
-    public Parser() {}
+    public Parser() {
+        negations.add("no");
+        negations.add("not");
+        negations.add("neither");
+        negations.add("nor");
+        negations.add("dont");
+        negations.add("wont");
+        negations.add("cant");
+        negations.add("isnt");
+        negations.add("wasnt");
+        negations.add("shouldnt"); 
+        negations.add("couldnt"); 
+        negations.add("never");
+        negations.add("aint");
+    }
 
     /*
      * Takes a file of word classifications and parses them
@@ -79,6 +95,8 @@ public class Parser {
 
         try {
 
+            String previousWord = "";
+
             //For each training file
             for(int i = 0; i < filePaths.length; i++){
 
@@ -96,12 +114,22 @@ public class Parser {
                         //For each word, if it is in the WordMap increment the count
                         if(wm.has(words[j])){
 
-                            if(negative){
+                            //If the words are negated, flip the count
+                            if(!negative && negations.contains(previousWord)){
                                 wm.addCountNegative(words[j]);
-                            } else {
+                            } else if(negative && negations.contains(previousWord)){
                                 wm.addCountNeutral(words[j]);
+                            } 
+
+                            else if(!negative){
+                                wm.addCountNeutral(words[j]);
+                            } else if(negative){
+                                wm.addCountNegative(words[j]);
                             }
+
                         }
+
+                        previousWord = words[j];
                     }
                 }
 
