@@ -1,3 +1,4 @@
+*.sw*
 *.class
 .DS_Store
 main
