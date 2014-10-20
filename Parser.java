@@ -258,13 +258,13 @@ public class Parser {
     }
 
     /*
-     * Returns a complete WordMap of tokens (words) from the given source
-     * file provided they are present in the supplied vocabulary.
+     * Takes a WordMap of training data and add the frequences of the words
+     * as they appeared in the given source file.
+     * Returns true if successful.
      */
-    public WordMap readTokens(WordMap vocabulary, String fileName) {
+    public boolean readTokens(WordMap wm, String fileName) {
         Scanner sc1, sc2;
-
-        WordMap tokens = new WordMap();
+        boolean successful = false;
 
         try {
             sc1 = new Scanner(new File(fileName));
@@ -276,21 +276,22 @@ public class Parser {
                     String strWord = sc2.next().replaceAll("[?!,\\.]", "")
                         .toLowerCase();
 
-                    // Only count the words present in the vocabulary
-                    if (vocabulary.has(strWord)) {
+                    if (wm.has(strWord)) {
+                        // If the word is in the training data it must be negative
+                        wm.addCountNegative(strWord);
+                    } else {
                         // Create new word if it has not been added
-                        if (!tokens.has(strWord)) {
-                            Word objWord = new Word(strWord, Word.Subjectivity.UNKNOWN,
-                                    Word.Position.UNKNOWN, false, Word.Polarity.UNKNOWN);
-                            tokens.put(strWord, objWord);
-                        }
+                        Word objWord = new Word(strWord, Word.Subjectivity.UNKNOWN,
+                                Word.Position.UNKNOWN, false, Word.Polarity.UNKNOWN);
 
-                        // Increase number of occurences, only negative words in vocabulary
-                        tokens.addCountNegative(strWord);
+                        // TODO What value should be added for unknown words?
+                        wm.put(strWord, objWord);
+                        wm.addCountPositive(strWord);
                     }
                 }
 
                 sc2.close();
+                successful = true;
             }
 
             sc1.close();
@@ -299,6 +300,6 @@ public class Parser {
             e.printStackTrace();
         }
 
-        return tokens;
+        return successful;
     }
 }

@@ -1,6 +1,8 @@
 import java.util.Vector;
 import java.util.HashMap;
 import java.util.Collections;
+import java.util.Set;
+import java.util.Map;
 
 /*
  * Classifier which determines whether the probability of a document
@@ -32,30 +34,21 @@ public class NaiveBayesClassifier {
     }
 
     /*
-     * Applies the multinomial naive Bayes algorithm and returns the highest
-     * probability.
+     * Applies the multinomial naive Bayes algorithm on the given file and
+     * returns the highest probability.
      */
-    // private double applyMultinomialClassification(String fileName, int numClasses,
-    //         HashMap<String, Integer> vocabulary, Vector<Double> prior,
-    //         Matrix condProb) {
     private double applyMultinomialClassification(String fileName) {
         // Extract all the tokens of the document
-        WordMap tokens = pr.readTokens(profanities, fileName);
+        pr.readTokens(profanities, fileName);
 
         Vector<Double> score = new Vector<Double>();
 
+        for (Map.Entry<String, Word> entry : profanities.getEntrySet()) {
+            String strWord = entry.getKey();
+            Word objWord = entry.getValue();
+        }
+
         //TODO check whether our tokens are included in our profanities, check frequency, compute bayes
-
-        // for (int i=0; i<numClasses; ++i) {
-        //     score.add(i, Math.log(prior.get(i)));
-
-        //     for (int j=0; j<tokens.size(); ++j) {
-        //         Double prob = score.get(i);
-
-        //         prob += Math.log(condProb.get(j, i));
-        //         score.add(i, prob);
-        //     }
-        // }
 
         // Return the highest probability
         return Collections.max(score);

@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /*
  * A hash map implementation which stores all the words present
@@ -85,6 +86,10 @@ public class WordMap {
             totalCount -= (objWord.numPositive + objWord.numNegative);
             objWord.resetCount();
         }
+    }
+
+    public Set<Map.Entry<String, Word>> getEntrySet() {
+        return wordMap.entrySet();
     }
 
     public String toString() {
