@@ -205,11 +205,12 @@ public class Parser {
       Word objWord = null;
       try {
         String []data = line.split(" ");
-        String subj = data[0].split("=")[1];
-        String word = data[2].split("=")[1];
-        String pos = data[3].split("=")[1];
-        String stemmed = data[4].split("=")[1];
-        String polarity = data[5].split("=")[1];
+        String subj = data[colSubj].split("=")[1];
+        //Ignoring len (colLen)
+        String word = data[colWord].split("=")[1];
+        String pos = data[colPos].split("=")[1];
+        String stemmed = data[colStemmed].split("=")[1];
+        String polarity = data[colPolarity].split("=")[1];
         objWord = new Word(word, Word.strToSubjectivity(subj),
             Word.strToPosition(pos), Word.strToStemmed(stemmed),
             Word.strToPolarity(polarity));
