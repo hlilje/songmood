@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+
 public class Haddockify {
 
     private static WordMap wm;
@@ -43,6 +45,9 @@ public class Haddockify {
         nbc = new NaiveBayesClassifier();
         nbc.train();
 
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        System.out.println(df.format(nbc.classify(filePath, true) / nbc.classify(filePath, false)) + " times as profane as control data.");
         System.out.println("Negative match: " + nbc.classify(filePath, true) + ", Neutral match: " + nbc.classify(filePath, false));
 
         //TODO use the text generator to add Haddock profanities based on the probability
