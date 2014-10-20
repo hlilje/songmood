@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+
 /*
  * A hash map implementation which stores all the words present
  * int the text file of word classifications.
@@ -13,51 +14,49 @@ public class WordMap {
 
     private static final float smoothing = 1;
 
-    private static final Map<String, Word> wordMap;
+    private final HashMap<String, Word> wordMap = new HashMap<String, Word>();
 
-    static { wordMap = new HashMap<String, Word>(); }
 
     public WordMap() {
         totalCount = 0;
     }
 
     public void put(String strWord, Word objWord) {
-        wordMap.put(strWord, objWord);
+        wordMap.put(strWord.toLowerCase(), objWord);
     }
 
     public Word get(String word) {
-        return wordMap.get(word);
+        return wordMap.get(word.toLowerCase());
     }
 
     public boolean has(String word) {
-        return wordMap.containsKey(word);
+        return wordMap.containsKey(word.toLowerCase());
     }
 
     public void addCountPositive(String word) {
 
         totalCount++;
 
-        if (has(word)) wordMap.get(word).addPositive();
+        if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).addPositive();
     }
 
     public void addCountNegative(String word) {
 
         totalCount++;
 
-        if (has(word)) wordMap.get(word).addNegative();
+        if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).addNegative();
     }
 
     //Returns frequency (currently both good and bad)
     //Normalized so missing words don't return zero
     public float getFrequency(String word){
-        return (getCount(word) + smoothing) / (totalCount + smoothing);
+        return (getCount(word.toLowerCase()) + smoothing) / (totalCount + smoothing);
     }
 
     public int getCount(String strWord) {
-        if (!has(strWord)) return 0;
+        if (!has(strWord.toLowerCase())) return 0;
 
         Word objWord = wordMap.get(strWord);
-
         return objWord.numPositive + objWord.numNegative;
     }
 
@@ -67,20 +66,20 @@ public class WordMap {
     }
 
     public int getCountPositive(String word) {
-        if (!has(word)) return 0;
+        if (!has(word.toLowerCase())) return 0;
 
-        return wordMap.get(word).numPositive;
+        return wordMap.get(word.toLowerCase()).numPositive;
     }
 
     public int getCountNegative(String word) {
-        if (!has(word)) return 0;
+        if (!has(word.toLowerCase())) return 0;
 
-        return wordMap.get(word).numNegative;
+        return wordMap.get(word.toLowerCase()).numNegative;
     }
 
     public void resetCount(String strWord) {
-        if (has(strWord)) {
-            Word objWord = wordMap.get(strWord);
+        if (has(strWord.toLowerCase())) {
+            Word objWord = wordMap.get(strWord.toLowerCase());
 
             //Removes previous counts from total
             totalCount -= (objWord.numPositive + objWord.numNegative);
@@ -92,6 +91,7 @@ public class WordMap {
         return wordMap.entrySet();
     }
 
+    // Not in line order
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
@@ -101,8 +101,8 @@ public class WordMap {
             String key = entry.getKey();
             Word word = entry.getValue();
 
-            sb.append(key + ":\t(Negative: " + word.numNegative + ", Positive: " +
-                    word.numPositive + ")\n");
+            sb.append(key+ ":\tNegative: " + word.numNegative + " Positive: " +
+                    word.numPositive + "\n");
         }
 
         return sb.toString();

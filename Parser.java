@@ -234,7 +234,7 @@ public class Parser {
         Scanner sc;
 
         try {
-            sc1 = new Scanner(new File(WORD_CLASSIFICATIONS_PROFANITIES));
+            sc = new Scanner(new File(WORD_CLASSIFICATIONS_PROFANITIES));
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
