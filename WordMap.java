@@ -49,13 +49,15 @@ public class WordMap {
     //Returns frequency (currently both good and bad)
     //Normalized so missing words don't return zero
     public float getFrequency(String word){
-        return (getCount(word) + smoothing) / (getTotalCount() + smoothing);
+        return (getCount(word) + smoothing) / (totalCount + smoothing);
     }
 
-    public int getCount(String word) {
-        if (!has(word)) return 0;
+    public int getCount(String strWord) {
+        if (!has(strWord)) return 0;
 
-        return getCountPositive(word) + getCountNegative(word);
+        Word objWord = wordMap.get(strWord);
+
+        return objWord.numPositive + objWord.numNegative;
     }
 
     public int getTotalCount() {
@@ -75,12 +77,14 @@ public class WordMap {
         return wordMap.get(word).numNegative;
     }
 
-    public void resetCount(String word) {
+    public void resetCount(String strWord) {
+        if (has(strWord)) {
+            Word objWord = wordMap.get(strWord);
 
-        //Removes previous counts from total
-        totalCount -= (wordMap.get(word).numPositive + wordMap.get(word).numNegative);
-        
-        if (has(word)) wordMap.get(word).resetCount();
+            //Removes previous counts from total
+            totalCount -= (objWord.numPositive + objWord.numNegative);
+            objWord.resetCount();
+        }
     }
 
     public String toString() {
