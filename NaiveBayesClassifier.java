@@ -69,29 +69,13 @@ public class NaiveBayesClassifier {
      * returns the highest probability.
      */
     private double applyMultinomialClassification(String fileName) {
-        ArrayList<Double> score = new ArrayList<Double>();
+        ArrayList<String> tokens = pr.readTokens(fileName);
 
-        try {
-            Scanner sc = new Scanner(new File(fileName));
-
-            while (sc.hasNextLine()) {
-                // Extract all the tokens of the current line
-                pr.readTokens(profanities, sc);
-
-                for (Map.Entry<String, Word> entry : profanities.getEntrySet()) {
-                    String strWord = entry.getKey();
-                    Word objWord = entry.getValue();
-                }
-            }
-
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
         //TODO check whether our tokens are included in our profanities, check frequency, compute bayes
 
         // Return the highest probability
-        return Collections.max(score);
+        // return Collections.max(score);
+        return 0.0d;
     }
 
     /*
