@@ -9,10 +9,10 @@ import java.util.Set;
  */
 public class WordMap {
 
+    private static final float smoothing = 1;
+
     //Total number of counts for all words
     private int totalCount;
-
-    private static final float smoothing = 1;
 
     private final HashMap<String, Word> wordMap = new HashMap<String, Word>();
 

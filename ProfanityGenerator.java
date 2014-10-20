@@ -6,16 +6,13 @@ import java.util.Random;
  */
 public class ProfanityGenerator {
 
-    private static final ArrayList<String> profanitiesSingular;
-    private static final ArrayList<String> profanitiesPlural;
+    private final ArrayList<String> profanitiesSingular;
+    private final ArrayList<String> profanitiesPlural;
     private Random rand;
 
-    static {
+    public ProfanityGenerator() {
         profanitiesSingular = new ArrayList<String>();
         profanitiesPlural   = new ArrayList<String>();
-    }
-
-    public ProfanityGenerator() {
         rand = new Random();
     }
 
