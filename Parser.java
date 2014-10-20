@@ -258,18 +258,14 @@ public class Parser {
     }
 
     /*
-     * Returns a complete list of tokens (words) from the given source
+     * Returns a complete WordMap of tokens (words) from the given source
      * file provided they are present in the supplied vocabulary.
      */
-    public Vector<String> readTokens(HashMap<String, Integer> vocabulary,
-            String fileName) {
+    public WordMap readTokens(WordMap vocabulary, String fileName) {
         Scanner sc1, sc2;
 
-        Vector<String> tokens = new Vector<String>();
-        // Keep track of what has been added
-        HashMap<String, Boolean> addedTokens = new HashMap<String, Boolean>();
+        WordMap tokens = new WordMap();
 
-        // TODO Should this only add unique tokens?
         try {
             sc1 = new Scanner(new File(fileName));
 
@@ -277,13 +273,20 @@ public class Parser {
                 sc2 = new Scanner(sc1.nextLine());
 
                 while (sc2.hasNext()) {
-                    String word = sc2.next().toLowerCase();
+                    String strWord = sc2.next().replaceAll("[?!,\\.]", "")
+                        .toLowerCase();
 
-                    // Skip words not in the vocabulary and duplicates
-                    if (vocabulary.containsKey(word) &&
-                            !addedTokens.containsKey(word)) {
-                        tokens.add(word);
-                        addedTokens.put(word, true);
+                    // Only count the words present in the vocabulary
+                    if (vocabulary.has(strWord)) {
+                        // Create new word if it has not been added
+                        if (!tokens.has(strWord)) {
+                            Word objWord = new Word(strWord, Word.Subjectivity.UNKNOWN,
+                                    Word.Position.UNKNOWN, false, Word.Polarity.UNKNOWN);
+                            tokens.put(strWord, objWord);
+                        }
+
+                        // Increase number of occurences, only negative words in vocabulary
+                        tokens.addCountNegative(strWord);
                     }
                 }
 

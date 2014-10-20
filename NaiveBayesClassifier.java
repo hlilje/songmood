@@ -35,27 +35,27 @@ public class NaiveBayesClassifier {
      * Applies the multinomial naive Bayes algorithm and returns the highest
      * probability.
      */
-    private double applyMultinomialClassification(String fileName, int numClasses,
-            HashMap<String, Integer> vocabulary, Vector<Double> prior,
-            Matrix condProb) {
+    // private double applyMultinomialClassification(String fileName, int numClasses,
+    //         HashMap<String, Integer> vocabulary, Vector<Double> prior,
+    //         Matrix condProb) {
+    private double applyMultinomialClassification(String fileName) {
         // Extract all the tokens of the document
-        Parser p = new Parser();
-        Vector<String> tokens = p.readTokens(vocabulary, fileName);
+        WordMap tokens = pr.readTokens(profanities, fileName);
 
         Vector<Double> score = new Vector<Double>();
 
         //TODO check whether our tokens are included in our profanities, check frequency, compute bayes
 
-        for (int i=0; i<numClasses; ++i) {
-            score.add(i, Math.log(prior.get(i)));
+        // for (int i=0; i<numClasses; ++i) {
+        //     score.add(i, Math.log(prior.get(i)));
 
-            for (int j=0; j<tokens.size(); ++j) {
-                Double prob = score.get(i);
+        //     for (int j=0; j<tokens.size(); ++j) {
+        //         Double prob = score.get(i);
 
-                prob += Math.log(condProb.get(j, i));
-                score.add(i, prob);
-            }
-        }
+        //         prob += Math.log(condProb.get(j, i));
+        //         score.add(i, prob);
+        //     }
+        // }
 
         // Return the highest probability
         return Collections.max(score);
