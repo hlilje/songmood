@@ -44,6 +44,8 @@ public class Haddockify {
         nbc.train();
         //nb.applyMultinomialClassification(filePath, etc etc);
 
+        System.out.println(nbc.profanityLevel(filePath));
+
         //TODO use the text generator to add Haddock profanities based on the probability
     }
 }

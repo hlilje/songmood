@@ -40,8 +40,6 @@ public class Parser {
         try {
             sc = new Scanner(new File(filePath));
 
-            System.err.println("Generating WordMap... Estimated time: heat death of universe.");
-
             while (sc.hasNextLine()) {
 
                 String line = sc.nextLine();
