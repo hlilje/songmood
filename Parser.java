@@ -50,8 +50,7 @@ public class Parser {
                 //Gets a string of the word we are currently parsing
                 String word = lineData[colWord].split("=")[1];
 
-                //Converts the word into a Word object and puts it in the WordMap
-                wm.put(word, createWord(lineData));
+                wm.put(word, getWordFromLine(line));
             }
 
         } catch (Exception e) {
@@ -202,6 +201,27 @@ public class Parser {
         return successful;
     }
 
+    public Word getWordFromLine(String line) {
+      Word objWord = null;
+      try {
+        String []data = line.split(" ");
+        String subj = data[colSubj].split("=")[1];
+        //Ignoring len (colLen)
+        String word = data[colWord].split("=")[1];
+        String pos = data[colPos].split("=")[1];
+        String stemmed = data[colStemmed].split("=")[1];
+        String polarity = data[colPolarity].split("=")[1];
+        objWord = new Word(word, Word.strToSubjectivity(subj),
+            Word.strToPosition(pos), Word.strToStemmed(stemmed),
+            Word.strToPolarity(polarity));
+      } catch (Exception e) {
+        System.err.println("Error when parsing line for a word");
+        e.printStackTrace();
+        System.exit(1);
+      }
+      return objWord;
+    }
+
     /*
      * TODO This is probably too slow to do multiple times.
      *
@@ -215,7 +235,7 @@ public class Parser {
         Scanner sc;
 
         try {
-            sc = new Scanner(new File(WORD_CLASSIFICATIONS));
+            sc = new Scanner(new File(WORD_CLASSIFICATIONS_PROFANITIES));
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
