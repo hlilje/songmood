@@ -16,7 +16,7 @@ public class Parser {
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
 
     public static final String [] TRAINING_TEXT_PROFANE         = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt", "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt", "txt/negative/dance_with_the_devil.txt"};
-    public static final String [] TRAINING_TEXT_NEUTRAL         = {"txt/neutral/kanyewest.txt", "txt/neutral/childishgambino.txt"};
+    public static final String [] TRAINING_TEXT_NEUTRAL         = {"txt/neutral/willsmith.txt"};
 
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
