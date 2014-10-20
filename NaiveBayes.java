@@ -9,13 +9,13 @@ import java.util.Collections;
 public class NaiveBayes {
 
     private Parser pr;
-    private TextMap profanities;
+    private WordMap profanities;
 
     public NaiveBayes() {
         pr = new Parser();
 
-        //Generates a textmap from our word classifications
-        profanities = pr.generateTextMap(Parser.WORD_CLASSIFICATIONS_PROFANITIES);
+        //Generates a texwmap from our word classifications
+        profanities = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS_PROFANITIES);
     }
 
     /*

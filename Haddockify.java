@@ -1,6 +1,6 @@
 public class Haddockify {
 
-    private static TextMap tm;
+    private static WordMap wm;
     private static ProfanityGenerator pg;
     private static Parser p;
     private static Interpreter in;
@@ -8,7 +8,7 @@ public class Haddockify {
     private static String filePath;
 
     public static void main(String[] args) {
-        tm = new TextMap();
+        wm = new WordMap();
         pg = new ProfanityGenerator();
         p = new Parser();
 
@@ -22,7 +22,7 @@ public class Haddockify {
         } else {
             filePath = args[0];
 
-            /*if (!p.readSourceFile(tm, filePath)) {
+            /*if (!p.readSourceFile(wm, filePath)) {
                 System.err.println("Failed to parse source file");
                 return;
             }*/

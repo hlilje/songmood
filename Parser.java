@@ -10,68 +10,67 @@ import java.util.HashMap;
  */
 public class Parser {
 
-    public static final String PROFANITIES_SINGULAR = "txt/profanities_singular.txt";
-    public static final String PROFANITIES_PLURAL   = "txt/profanities_plural.txt";
-    public static final String WORD_CLASSIFICATIONS = "txt/word_classifications.txt";
+    public static final String PROFANITIES_SINGULAR             = "txt/profanities_singular.txt";
+    public static final String PROFANITIES_PLURAL               = "txt/profanities_plural.txt";
+    public static final String WORD_CLASSIFICATIONS             = "txt/word_classifications.txt";
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
 
-    public static final String [] TRAINING_TEXT_PROFANE = {"txt/get_low.txt"};
-    public static final String [] TRAINING_TEXT_NEUTRAL = {"TODO"};
-
-    //Global scanners?
-    private Scanner sc1, sc2;
+    public static final String [] TRAINING_TEXT_PROFANE         = {"txt/get_low.txt"};
+    public static final String [] TRAINING_TEXT_NEUTRAL         = {"TODO"};
 
     public Parser() {}
 
     /*
      * Takes a file of word classifications and parses them
-     * Returns a TextMap of those words
+     * Returns a WordMap of those words
      */
-    public TextMap generateTextMap(String filePath) {
+    public WordMap generateWordMap(String filePath) {
 
-        TextMap tm = new TextMap();
+        WordMap wm = new WordMap();
         Scanner sc;
 
         try {
             sc = new Scanner(new File(filePath));
 
-            System.err.println("Generating TextMap... Estimated time: heat death of universe.");
+            System.err.println("Generating WordMap... Estimated time: heat death of universe.");
 
             while (sc.hasNextLine()) {
 
                 String line = sc.nextLine();
-                
+
                 //Gets a string of the word we are currently parsing
                 String word = line.split(" ")[2].split("=")[1];
 
-                //Converts the word into a Word object and puts it in the TextMap
-                tm.put(word, getWord(line));
+                //Converts the word into a Word object and puts it in the WordMap
+                wm.put(word, getWord(line));
             }
 
             //sc.close();
 
         } catch (Exception e) {
-            System.err.println("Error in generateTextMap");
+            System.err.println("Error in generateWordMap");
             System.err.println(e.getMessage());
             e.printStackTrace();
             return null;
         }
 
         sc.close();
-        return tm;
+        return wm;
     }
 
     /*
-     * Takes an array of strings containing file paths, and a TextMap.
-     * Increments the occurence if it finds a word contained in the TextMap.
-     * Returns the TextMap.
+     * Takes an array of strings containing file paths, and a WordMap.
+     * Increments the occurence if it finds a word contained in the WordMap.
+     * Returns the WordMap.
      */
-    public TextMap countWordOccurences(String [] filePaths, TextMap tm){
-        
+    public WordMap countWordOccurences(String [] filePaths, WordMap wm){
+
+        Scanner sc1, sc2;
+
         //Returns the file if length is zero
         if(filePaths.length == 0){
             System.err.println("mapWordOccurences cannot recieve an empty array for filenames");
-            return tm;
+            return wm;
         }
 
         try {
@@ -90,15 +89,15 @@ public class Parser {
                         //Replaces all characters which might cause us to miss the key
                         words[j] = words[j].replaceAll("[?!,\\.]", "");
 
-                        //For each word, if it is in the TextMap increment the count
-                        if(tm.has(words[j])){
+                        //For each word, if it is in the WordMap increment the count
+                        if(wm.has(words[j])){
 
                             //TODO only counts negatives right now FIXME later
-                            tm.addCountNegative(words[j]);
+                            wm.addCountNegative(words[j]);
                         }
                     }
                 }
-                
+
                 sc1.close();
             }
 
@@ -109,7 +108,7 @@ public class Parser {
             return null;
         }
 
-        return tm;
+        return wm;
     }
 
     /*
@@ -119,16 +118,19 @@ public class Parser {
      * avoid opening/closing for each line.
      * Returns true if successful.
      */
-    public Vector<String> getSourceLineWords(Scanner sc) {
+    public Vector<String> getSourceLineWords(Scanner sc1) {
         Vector<String> words = new Vector<String>();
 
-        try {
-            if (sc.hasNextLine()) {
-                sc1 = new Scanner(sc.nextLine());
+        Scanner sc2;
 
-                while (sc1.hasNext()) {
-                    words.add(sc1.next().toLowerCase());
+        try {
+            if (sc1.hasNextLine()) {
+                sc2 = new Scanner(sc1.nextLine());
+
+                while (sc2.hasNext()) {
+                    words.add(sc2.next().toLowerCase());
                 }
+                sc2.close();
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -146,21 +148,23 @@ public class Parser {
     public boolean readProfanitiesSingular(ProfanityGenerator pg) {
         boolean successful = false;
 
-        try {
-            sc1 = new Scanner(new File(PROFANITIES_SINGULAR));
+        Scanner sc;
 
-            while (sc1.hasNextLine()) {
-                String profanity = sc1.nextLine();
+        try {
+            sc = new Scanner(new File(PROFANITIES_SINGULAR));
+
+            while (sc.hasNextLine()) {
+                String profanity = sc.nextLine();
                 pg.addProfanitySingular(profanity);
             }
 
             successful = true;
+            sc.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
 
-        sc1.close();
         return successful;
     }
 
@@ -171,22 +175,23 @@ public class Parser {
     public boolean readProfanitiesPlural(ProfanityGenerator pg) {
         boolean successful = false;
 
-        try {
-            sc1 = new Scanner(new File(PROFANITIES_PLURAL));
+        Scanner sc;
 
-            while (sc1.hasNextLine()) {
-                String profanity = sc1.nextLine();
+        try {
+            sc = new Scanner(new File(PROFANITIES_PLURAL));
+
+            while (sc.hasNextLine()) {
+                String profanity = sc.nextLine();
                 pg.addProfanityPlural(profanity);
             }
-            sc1.close();
 
             successful = true;
+            sc.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
 
-        sc1.close();
         return successful;
     }
 
@@ -201,11 +206,13 @@ public class Parser {
         Word objWord = null;
         boolean successful = false;
 
-        try {
-            sc1 = new Scanner(new File(WORD_CLASSIFICATIONS));
+        Scanner sc;
 
-            while (sc1.hasNextLine()) {
-                String line = sc1.nextLine();
+        try {
+            sc = new Scanner(new File(WORD_CLASSIFICATIONS));
+
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
                 String[] lineData = line.split(" ");
 
                 // Extract word here to avoid extracing more data in vain
@@ -227,12 +234,12 @@ public class Parser {
             }
 
             successful = true;
+            sc.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
 
-        sc1.close();
         return objWord;
     }
 
@@ -242,6 +249,8 @@ public class Parser {
      */
     public Vector<String> readTokens(HashMap<String, Integer> vocabulary,
             String fileName) {
+        Scanner sc1, sc2;
+
         Vector<String> tokens = new Vector<String>();
         // Keep track of what has been added
         HashMap<String, Boolean> addedTokens = new HashMap<String, Boolean>();
@@ -263,14 +272,14 @@ public class Parser {
                         addedTokens.put(word, true);
                     }
                 }
+                sc2.close();
             }
+            sc1.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
 
-        sc1.close();
-        sc2.close();
         return tokens;
     }
 }
