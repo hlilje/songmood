@@ -3,16 +3,15 @@ import java.util.Scanner;
 import java.util.Vector;
 
 /**
- * Methods for interpreting and doing something interesting
- * with the parsed data.
+ * Methods for creating Haddockified texts.
  */
-public class Interpreter {
+public class TextGenerator {
 
     private String filePath;
     private Parser p;
     private ProfanityGenerator pg;
 
-    public Interpreter(String filePath) {
+    public TextGenerator(String filePath) {
         this.filePath = filePath;
 
         p = new Parser();

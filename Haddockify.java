@@ -3,7 +3,7 @@ public class Haddockify {
     private static WordMap wm;
     private static ProfanityGenerator pg;
     private static Parser p;
-    private static Interpreter in;
+    private static TextGenerator tg;
     private static NaiveBayes nb;
     private static String filePath;
 
@@ -44,6 +44,6 @@ public class Haddockify {
         nb.train();
         //nb.applyMultinomialClassification(filePath, etc etc);
 
-        //TODO use the interpreter to add haddock profanities based on the probability
+        //TODO use the text generator to add Haddock profanities based on the probability
     }
 }
