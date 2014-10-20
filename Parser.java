@@ -93,7 +93,7 @@ public class Parser {
                     for(int j = 0; j < words.length; j++){
 
                         //Replaces all characters which might cause us to miss the key
-                        words[j] = words[j].replaceAll("[?!,\\.]", "");
+                        words[j] = words[j].replaceAll("\\W", "");
 
                         //For each word, if it is in the WordMap increment the count
                         if(wm.has(words[j])){
@@ -292,7 +292,7 @@ public class Parser {
                 sc2 = new Scanner(sc1.nextLine());
 
                 while (sc2.hasNext()) {
-                    String strWord = sc2.next().replaceAll("[?!,\\.]", "")
+                    String strWord = sc2.next().replaceAll("\\W", "")
                         .toLowerCase();
 
                     if (wm.has(strWord)) {
