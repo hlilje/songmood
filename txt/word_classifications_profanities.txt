@@ -3,8 +3,11 @@ type=strongsubj len=1 word1=weed pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=bong pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=coke pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=crack pos1=noun stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=slut pos1=verb stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=whore pos1=verb stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=whore pos1=noun stemmed1=n priorpolarity=negative
-type=strongsubj len=1 word1=whore pos1=noun stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=ho pos1=noun stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=hoe pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=fuck pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=fucker pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=fucking pos1=adj stemmed1=n priorpolarity=negative
@@ -15,8 +18,11 @@ type=strongsubj len=1 word1=ass pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=asshole pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=christ pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=gay pos1=noun stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=gays pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=fag pos1=noun stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=fags pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=faggot pos1=noun stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=faggots pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=dick pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=cock pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=cunt pos1=noun stemmed1=n priorpolarity=negative
