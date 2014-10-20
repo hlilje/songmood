@@ -39,6 +39,7 @@ public class Word {
     // Neutral is also considered positive
     public int numPositive;
     public int numNegative;
+    public int numNeutral;
 
     public Word(String word, Subjectivity subjectivity, Position position,
             boolean stemmed, Polarity polarity) {
@@ -50,6 +51,7 @@ public class Word {
 
         numPositive = 0;
         numNegative = 0;
+        numNeutral = 0;
     }
 
     /*
@@ -154,8 +156,13 @@ public class Word {
     }
 
     public String toString() {
-        return "\"" + word + "\" (strength: " + subjectivity + ", position: " + position +
+        String str = "\"" + word + "\" (strength: " + subjectivity + ", position: " + position +
             ", stemmed: " + stemmed + ", polarity: " + polarity + ")";
+
+        str = str + "\n#Positive: " + numPositive + ", #Negative: " + numNegative + ", #Neutral: " +
+            numNeutral;
+
+        return str;
     }
 
     public void addPositive() {
@@ -166,8 +173,13 @@ public class Word {
         ++numNegative;
     }
 
+    public void addNeutral() {
+        ++numNeutral;
+    }
+
     public void resetCount() {
         numPositive = 0;
         numNegative = 0;
+        numNeutral = 0;
     }
 }

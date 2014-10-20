@@ -279,17 +279,16 @@ public class Parser {
 
     /*
      * Takes a WordMap of training data and add the frequences of the words
-     * as they appeared in the given source file.
+     * as they appeared in the given Scanner.
      * Returns true if successful.
      */
-    public boolean readTokens(WordMap wm, String fileName) {
-        Scanner sc1, sc2;
+    public boolean readTokens(WordMap wm, Scanner sc1) {
+        Scanner sc2;
         boolean successful = false;
 
         try {
-            sc1 = new Scanner(new File(fileName));
 
-            while (sc1.hasNextLine()) {
+            if (sc1.hasNextLine()) {
                 sc2 = new Scanner(sc1.nextLine());
 
                 while (sc2.hasNext()) {
@@ -304,16 +303,16 @@ public class Parser {
                         Word objWord = new Word(strWord, Word.Subjectivity.UNKNOWN,
                                 Word.Position.UNKNOWN, false, Word.Polarity.UNKNOWN);
 
-                        // TODO What value should be added for unknown words?
+                        // Neutral if not present in WorMap
                         wm.put(strWord, objWord);
-                        wm.addCountPositive(strWord);
+                        wm.addCountNeutral(strWord);
                     }
                 }
 
                 sc2.close();
-                successful = true;
             }
 
+            successful = true;
             sc1.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
