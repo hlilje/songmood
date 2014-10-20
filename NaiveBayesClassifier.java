@@ -30,38 +30,25 @@ public class NaiveBayesClassifier {
     }
 
     /*
-     * Takes a filename and returns a score between 0 and 1 based on how profane the sentence is
+     * Takes a filename and returns a score between 0 and 1 based on how
+     * profane the text is.
      */
     public double profanityLevel(String fileName){
 
-        int lineCount = 0;
         int totalCount = 0;
         double profanityLevel = 0.0d;
-        double totalProfanityLevel = 0.0d;
 
         //Read in file
-        //Create a function in parser which reads a file and returns an ArrayList of all words in the file
+        ArrayList<String> tokens = pr.readTokens(fileName);
 
-        //Put words in arraylist
+        for (String word : tokens) {
+            //For each word, check frequency of word
+            profanityLevel += profanities.getFrequency(word);
 
-        //For each line
-        lineCount = 0;
-        profanityLevel = 0.0d;
+            ++totalCount;
+        }
 
-        /*
-        //For each word, check frequency of word
-        profanityLevel += profanities.getFrequency(word);
-        totalProfanityLevel += profanities.getFrequency(word);
-        lineCount++;
-        totalCount++;
-
-        //For each line
-        profanityLevel / lineCount;
-
-        //At the end
-        */
-
-        return totalProfanityLevel / totalCount;
+        return profanityLevel / totalCount;
     }
 
     /*
@@ -69,8 +56,6 @@ public class NaiveBayesClassifier {
      * returns the highest probability.
      */
     private double applyMultinomialClassification(String fileName) {
-        ArrayList<String> tokens = pr.readTokens(fileName);
-
         //TODO check whether our tokens are included in our profanities, check frequency, compute bayes
 
         // Return the highest probability
