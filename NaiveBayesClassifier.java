@@ -74,13 +74,14 @@ public class NaiveBayesClassifier {
         try {
             Scanner sc = new Scanner(new File(fileName));
 
-            // Extract all the tokens of the document
-            pr.readTokens(profanities, sc);
+            while (sc.hasNextLine()) {
+                // Extract all the tokens of the current line
+                pr.readTokens(profanities, sc);
 
-
-            for (Map.Entry<String, Word> entry : profanities.getEntrySet()) {
-                String strWord = entry.getKey();
-                Word objWord = entry.getValue();
+                for (Map.Entry<String, Word> entry : profanities.getEntrySet()) {
+                    String strWord = entry.getKey();
+                    Word objWord = entry.getValue();
+                }
             }
 
         } catch (Exception e) {
