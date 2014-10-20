@@ -14,7 +14,7 @@ public class NaiveBayes {
     public NaiveBayes() {
         pr = new Parser();
 
-        //Generates a texwmap from our word classifications
+        //Generates a WordMap from our word classifications
         profanities = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS_PROFANITIES);
     }
 

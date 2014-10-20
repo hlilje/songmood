@@ -18,6 +18,14 @@ public class Parser {
     public static final String [] TRAINING_TEXT_PROFANE         = {"txt/get_low.txt"};
     public static final String [] TRAINING_TEXT_NEUTRAL         = {"TODO"};
 
+    // 0-indexed columns in word classifications file
+    private static int colSubj     = 0;
+    private static int colLen      = 1; // Not used
+    private static int colWord     = 2;
+    private static int colPos      = 3;
+    private static int colStemmed  = 4;
+    private static int colPolarity = 5;
+
     public Parser() {}
 
     /*
@@ -37,15 +45,14 @@ public class Parser {
             while (sc.hasNextLine()) {
 
                 String line = sc.nextLine();
+                String[] lineData = line.split(" ");
 
                 //Gets a string of the word we are currently parsing
-                String word = line.split(" ")[2].split("=")[1];
+                String word = lineData[colWord].split("=")[1];
 
                 //Converts the word into a Word object and puts it in the WordMap
-                wm.put(word, getWord(line));
+                wm.put(word, createWord(lineData));
             }
-
-            //sc.close();
 
         } catch (Exception e) {
             System.err.println("Error in generateWordMap");
@@ -219,15 +226,7 @@ public class Parser {
 
                 // Check if line contains word
                 if (lineWord.equals(word)) {
-                    String subj     = lineData[0].split("=")[1];
-                    // Len is ignored
-                    String pos      = lineData[3].split("=")[1];
-                    String stemmed  = lineData[4].split("=")[1];
-                    String polarity = lineData[5].split("=")[1];
-
-                    objWord = new Word(lineWord, Word.strToSubjectivity(subj),
-                            Word.strToPosition(pos), Word.strToStemmed(stemmed),
-                            Word.strToPolarity(polarity));
+                    objWord = createWord(lineData);
                     break;
                 }
             }
@@ -239,6 +238,23 @@ public class Parser {
         }
 
         return objWord;
+    }
+
+    /*
+     * Creates a Word object from a line in the format of
+     * word classifications.
+     */
+    private Word createWord(String[] lineData) {
+        String subj     = lineData[colSubj].split("=")[1];
+        // Len is ignored
+        String word     = lineData[colWord].split("=")[1];
+        String pos      = lineData[colPos].split("=")[1];
+        String stemmed  = lineData[colStemmed].split("=")[1];
+        String polarity = lineData[colPolarity].split("=")[1];
+
+        return new Word(word, Word.strToSubjectivity(subj),
+                Word.strToPosition(pos), Word.strToStemmed(stemmed),
+                Word.strToPolarity(polarity));
     }
 
     /*
