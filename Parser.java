@@ -16,7 +16,7 @@ public class Parser {
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
 
     public static final String [] TRAINING_TEXT_PROFANE         = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt", "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt", "txt/negative/dance_with_the_devil.txt"};
-    public static final String [] TRAINING_TEXT_NEUTRAL         = {"txt/neutral/TODO"};
+    public static final String [] TRAINING_TEXT_NEUTRAL         = {"txt/neutral/kanyewest.txt", "txt/neutral/childishgambino.txt"};
 
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
@@ -67,7 +67,7 @@ public class Parser {
      * Increments the occurence if it finds a word contained in the WordMap.
      * Returns the WordMap.
      */
-    public WordMap countWordOccurences(String [] filePaths, WordMap wm){
+    public WordMap countWordOccurences(String [] filePaths, WordMap wm, boolean negative){
 
         Scanner sc1, sc2;
 
@@ -96,8 +96,11 @@ public class Parser {
                         //For each word, if it is in the WordMap increment the count
                         if(wm.has(words[j])){
 
-                            //TODO only counts negatives right now FIXME later
-                            wm.addCountNegative(words[j]);
+                            if(negative){
+                                wm.addCountNegative(words[j]);
+                            } else {
+                                wm.addCountNeutral(words[j]);
+                            }
                         }
                     }
                 }
@@ -290,7 +293,7 @@ public class Parser {
         try {
             sc1 = new Scanner(new File(fileName));
 
-            if (sc1.hasNextLine()) {
+            while (sc1.hasNextLine()) {
                 sc2 = new Scanner(sc1.nextLine());
 
                 while (sc2.hasNext()) {

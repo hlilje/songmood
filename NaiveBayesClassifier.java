@@ -13,42 +13,48 @@ import java.util.Set;
 public class NaiveBayesClassifier {
 
     private Parser pr;
-    private WordMap profanities;
+    private WordMap korpus;
 
     public NaiveBayesClassifier() {
         pr = new Parser();
 
         //Generates a WordMap from our word classifications
-        profanities = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
+        korpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
     }
 
     /*
      * Trains the variables of our NaiveBayesClassifier according to our training data.
      */
     public void train() {
-        profanities = pr.countWordOccurences(Parser.TRAINING_TEXT_PROFANE, profanities);
+        korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_PROFANE, korpus, true);
+        korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL, korpus, false);
     }
 
     /*
      * Takes a filename and returns a score between 0 and 1 based on how
      * profane the text is.
      */
-    public double profanityLevel(String fileName){
+    public double classify(String fileName, boolean negative){
 
         int totalCount = 0;
-        double profanityLevel = 0.0d;
+        double classification = 0.0d;
 
         //Read in file
         ArrayList<String> tokens = pr.readTokens(fileName);
 
         for (String word : tokens) {
+            
             //For each word, check frequency of word
-            profanityLevel += profanities.getFrequency(word);
+            if(negative){
+                classification += korpus.getFrequencyNegative(word);
+            } else {
+                classification += korpus.getFrequencyNeutral(word);
+            }
 
             ++totalCount;
         }
 
-        return profanityLevel / totalCount;
+        return classification / totalCount;
     }
 
     /*
@@ -56,7 +62,7 @@ public class NaiveBayesClassifier {
      * returns the highest probability.
      */
     private double applyMultinomialClassification(String fileName) {
-        //TODO check whether our tokens are included in our profanities, check frequency, compute bayes
+        //TODO check whether our tokens are included in our korpus, check frequency, compute bayes
 
         // Return the highest probability
         // return Collections.max(score);

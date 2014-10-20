@@ -42,9 +42,8 @@ public class Haddockify {
 
         nbc = new NaiveBayesClassifier();
         nbc.train();
-        //nb.applyMultinomialClassification(filePath, etc etc);
 
-        System.out.println(nbc.profanityLevel(filePath));
+        System.out.println("Negative match: " + nbc.classify(filePath, true) + ", Neutral match: " + nbc.classify(filePath, false));
 
         //TODO use the text generator to add Haddock profanities based on the probability
     }

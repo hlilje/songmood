@@ -9,7 +9,7 @@ import java.util.Set;
  */
 public class WordMap {
 
-    private static final float smoothing = 1;
+    private static final float smoothing = 0;
 
     //Total number of counts for all words
     private int totalCount;
@@ -54,16 +54,23 @@ public class WordMap {
         if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).addNeutral();
     }
 
-    //Returns frequency (currently both good and bad)
-    //Normalized so missing words don't return zero
+    //Returns frequency
     public float getFrequency(String word){
-        return (getCount(word.toLowerCase()) + smoothing) / (totalCount + smoothing);
+        return ((float) getCount(word.toLowerCase())) / ((float) totalCount);
+    }
+
+    public float getFrequencyNeutral(String word){
+        return (float) getCountNeutral(word.toLowerCase()) / (float) totalCount;
+    }
+
+    public float getFrequencyNegative(String word){
+        return (float) getCountNegative(word.toLowerCase()) / (float) totalCount;
     }
 
     public int getCount(String strWord) {
         if (!has(strWord.toLowerCase())) return 0;
 
-        Word objWord = wordMap.get(strWord);
+        Word objWord = wordMap.get(strWord.toLowerCase());
         return objWord.numPositive + objWord.numNegative + objWord.numNeutral;
     }
 
@@ -76,6 +83,12 @@ public class WordMap {
         if (!has(word.toLowerCase())) return 0;
 
         return wordMap.get(word.toLowerCase()).numPositive;
+    }
+
+    public int getCountNeutral(String word) {
+        if (!has(word.toLowerCase())) return 0;
+
+        return wordMap.get(word.toLowerCase()).numNeutral;
     }
 
     public int getCountNegative(String word) {
