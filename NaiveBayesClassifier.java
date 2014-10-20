@@ -26,13 +26,41 @@ public class NaiveBayesClassifier {
      * Trains the variables of our NaiveBayesClassifier according to our training data.
      */
     public void train() {
-
-        if(profanities == null){
-            System.err.println("NEIN!");
-            return;
-        }
-
         profanities = pr.countWordOccurences(Parser.TRAINING_TEXT_PROFANE, profanities);
+    }
+
+    /*
+     * Takes a filename and returns a score between 0 and 1 based on how profane the sentence is
+     */
+    public double profanityLevel(String fileName){
+
+        int lineCount = 0;
+        int totalCount = 0;
+        double profanityLevel = 0.0d;
+        double totalProfanityLevel = 0.0d;
+
+        //Read in file
+        //Create a function in parser which reads a file and returns an ArrayList of all words in the file
+
+        //Put words in arraylist
+
+        //For each line
+        lineCount = 0;
+        profanityLevel = 0.0d;
+
+        /*
+        //For each word, check frequency of word
+        profanityLevel += profanities.getFrequency(word);
+        totalProfanityLevel += profanities.getFrequency(word);
+        lineCount++;
+        totalCount++;
+
+        //For each line
+        profanityLevel / lineCount;
+
+        //At the end
+        totalProfanityLevel / totalCount;
+        */
     }
 
     /*
