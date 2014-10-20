@@ -282,9 +282,12 @@ public class Parser {
      * as they appeared in the given Scanner.
      * Returns true if successful.
      */
-    public boolean readTokens(WordMap wm, Scanner sc1) {
-        Scanner sc2;
+
+    public boolean readTokens(String fileName) {
+        Scanner sc1, sc2;
         boolean successful = false;
+	ArrayList list = new ArrayList();
+	
 
         try {
 
@@ -294,19 +297,7 @@ public class Parser {
                 while (sc2.hasNext()) {
                     String strWord = sc2.next().replaceAll("\\W", "")
                         .toLowerCase();
-
-                    if (wm.has(strWord)) {
-                        // If the word is in the training data it must be negative
-                        wm.addCountNegative(strWord);
-                    } else {
-                        // Create new word if it has not been added
-                        Word objWord = new Word(strWord, Word.Subjectivity.UNKNOWN,
-                                Word.Position.UNKNOWN, false, Word.Polarity.UNKNOWN);
-
-                        // Neutral if not present in WorMap
-                        wm.put(strWord, objWord);
-                        wm.addCountNeutral(strWord);
-                    }
+		    list.add(strWord);		    
                 }
 
                 sc2.close();
