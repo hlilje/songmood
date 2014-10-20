@@ -6,12 +6,12 @@ import java.util.Collections;
  * Classifier which determines whether the probability of a document
  * belonging to a certain class.
  */
-public class NaiveBayes {
+public class NaiveBayesClassifier {
 
     private Parser pr;
     private WordMap profanities;
 
-    public NaiveBayes() {
+    public NaiveBayesClassifier() {
         pr = new Parser();
 
         //Generates a WordMap from our word classifications
@@ -19,7 +19,7 @@ public class NaiveBayes {
     }
 
     /*
-     * Trains the variables of our NaiveBayes according to our training data.
+     * Trains the variables of our NaiveBayesClassifier according to our training data.
      */
     public void train() {
 

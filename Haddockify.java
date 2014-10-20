@@ -4,7 +4,7 @@ public class Haddockify {
     private static ProfanityGenerator pg;
     private static Parser p;
     private static TextGenerator tg;
-    private static NaiveBayes nb;
+    private static NaiveBayesClassifier nbc;
     private static String filePath;
 
     public static void main(String[] args) {
@@ -40,8 +40,8 @@ public class Haddockify {
             return;
         }
 
-        nb = new NaiveBayes();
-        nb.train();
+        nbc = new NaiveBayesClassifier();
+        nbc.train();
         //nb.applyMultinomialClassification(filePath, etc etc);
 
         //TODO use the text generator to add Haddock profanities based on the probability
