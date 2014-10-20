@@ -1,9 +1,9 @@
 import java.io.File;
-import java.util.Scanner;
-import java.util.Vector;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 
 /*
  * Methods for parsing the text files.
@@ -119,13 +119,13 @@ public class Parser {
 
     /*
      * Reads one line from the source text file and returnes the word
-     * in a Vector.
+     * in an ArrayList.
      * Should be called repeatedly by external method with Scanner to
      * avoid opening/closing for each line.
      * Returns true if successful.
      */
-    public Vector<String> getSourceLineWords(Scanner sc1) {
-        Vector<String> words = new Vector<String>();
+    public ArrayList<String> getSourceLineWords(Scanner sc1) {
+        ArrayList<String> words = new ArrayList<String>();
 
         Scanner sc2;
 
@@ -283,13 +283,14 @@ public class Parser {
      * Returns true if successful.
      */
 
-    public boolean readTokens(String fileName) {
+    public ArrayList<String> readTokens(String fileName) {
         Scanner sc1, sc2;
         boolean successful = false;
-	ArrayList list = new ArrayList();
-	
+        ArrayList<String> wordList = new ArrayList<String>();
+
 
         try {
+            sc1 = new Scanner(new File(fileName));
 
             if (sc1.hasNextLine()) {
                 sc2 = new Scanner(sc1.nextLine());
@@ -297,7 +298,7 @@ public class Parser {
                 while (sc2.hasNext()) {
                     String strWord = sc2.next().replaceAll("\\W", "")
                         .toLowerCase();
-		    list.add(strWord);		    
+                    wordList.add(strWord);
                 }
 
                 sc2.close();
@@ -310,6 +311,6 @@ public class Parser {
             e.printStackTrace();
         }
 
-        return successful;
+        return wordList;
     }
 }

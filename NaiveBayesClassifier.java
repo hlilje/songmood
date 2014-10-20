@@ -1,10 +1,10 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Vector;
 
 /*
  * Classifier which determines whether the probability of a document
@@ -69,28 +69,13 @@ public class NaiveBayesClassifier {
      * returns the highest probability.
      */
     private double applyMultinomialClassification(String fileName) {
-        Vector<Double> score = new Vector<Double>();
+        ArrayList<String> tokens = pr.readTokens(fileName);
 
-        try {
-            Scanner sc = new Scanner(new File(fileName));
-
-            // Extract all the tokens of the document
-            pr.readTokens(profanities, sc);
-
-
-            for (Map.Entry<String, Word> entry : profanities.getEntrySet()) {
-                String strWord = entry.getKey();
-                Word objWord = entry.getValue();
-            }
-
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
         //TODO check whether our tokens are included in our profanities, check frequency, compute bayes
 
         // Return the highest probability
-        return Collections.max(score);
+        // return Collections.max(score);
+        return 0.0d;
     }
 
     /*

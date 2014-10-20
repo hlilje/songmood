@@ -1,4 +1,4 @@
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Random;
 
 /*
@@ -6,13 +6,13 @@ import java.util.Random;
  */
 public class ProfanityGenerator {
 
-    private static final Vector<String> profanitiesSingular;
-    private static final Vector<String> profanitiesPlural;
+    private static final ArrayList<String> profanitiesSingular;
+    private static final ArrayList<String> profanitiesPlural;
     private Random rand;
 
     static {
-        profanitiesSingular = new Vector<String>();
-        profanitiesPlural   = new Vector<String>();
+        profanitiesSingular = new ArrayList<String>();
+        profanitiesPlural   = new ArrayList<String>();
     }
 
     public ProfanityGenerator() {

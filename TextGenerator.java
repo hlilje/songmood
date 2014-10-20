@@ -1,6 +1,6 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Vector;
 
 /**
  * Methods for creating Haddockified texts.
@@ -28,7 +28,7 @@ public class TextGenerator {
 
             //Reads in a file
             Scanner sc = new Scanner(new File(filePath));
-            Vector<String> words;
+            ArrayList<String> words;
 
             while (sc.hasNextLine()) {
                 int lineStrength = 0;
