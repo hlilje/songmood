@@ -1,10 +1,10 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Vector;
 
 /*
  * Classifier which determines whether the probability of a document
@@ -69,7 +69,7 @@ public class NaiveBayesClassifier {
      * returns the highest probability.
      */
     private double applyMultinomialClassification(String fileName) {
-        Vector<Double> score = new Vector<Double>();
+        ArrayList<Double> score = new ArrayList<Double>();
 
         try {
             Scanner sc = new Scanner(new File(fileName));
