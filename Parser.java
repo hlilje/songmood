@@ -204,7 +204,6 @@ public class Parser {
      */
     public Word getWord(String word) {
         Word objWord = null;
-        boolean successful = false;
 
         Scanner sc;
 
@@ -233,7 +232,6 @@ public class Parser {
                 }
             }
 
-            successful = true;
             sc.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -272,8 +270,10 @@ public class Parser {
                         addedTokens.put(word, true);
                     }
                 }
+
                 sc2.close();
             }
+
             sc1.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
