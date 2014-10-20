@@ -1,3 +1,8 @@
+type=strongsubj len=1 word1=thugs pos1=noun stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=weed pos1=noun stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=bong pos1=noun stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=coke pos1=noun stemmed1=n priorpolarity=negative
+type=strongsubj len=1 word1=crack pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=whore pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=whore pos1=noun stemmed1=n priorpolarity=negative
 type=strongsubj len=1 word1=fuck pos1=noun stemmed1=n priorpolarity=negative

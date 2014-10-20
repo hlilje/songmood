@@ -15,8 +15,8 @@ public class Parser {
     public static final String WORD_CLASSIFICATIONS             = "txt/word_classifications.txt";
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
 
-    public static final String [] TRAINING_TEXT_PROFANE         = {"txt/get_low.txt"};
-    public static final String [] TRAINING_TEXT_NEUTRAL         = {"TODO"};
+    public static final String [] TRAINING_TEXT_PROFANE         = {"txt/negative/get_low.txt"};
+    public static final String [] TRAINING_TEXT_NEUTRAL         = {"txt/neutral/TODO"};
 
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
