@@ -59,8 +59,9 @@ public class NaiveBayesClassifier {
         profanityLevel / lineCount;
 
         //At the end
-        totalProfanityLevel / totalCount;
         */
+
+        return totalProfanityLevel / totalCount;
     }
 
     /*
