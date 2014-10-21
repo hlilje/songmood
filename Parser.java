@@ -15,11 +15,13 @@ public class Parser {
     public static final String WORD_CLASSIFICATIONS             = "txt/word_classifications.txt";
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
 
-    public static final String [] TRAINING_TEXT_PROFANE         = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt", "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt", "txt/negative/dance_with_the_devil.txt"};
+    public static final String [] TRAINING_TEXT_PROFANE         = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt",
+                                                                    "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt",
+                                                                    "txt/negative/dance_with_the_devil.txt"};
     public static final String [] TRAINING_TEXT_NEUTRAL         = {"txt/neutral/willsmith.txt"};
 
     private static final ArrayList<String> negations = new ArrayList<String>();
- 
+
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
     private static int colLen      = 1; // Not used
@@ -38,8 +40,8 @@ public class Parser {
         negations.add("cant");
         negations.add("isnt");
         negations.add("wasnt");
-        negations.add("shouldnt"); 
-        negations.add("couldnt"); 
+        negations.add("shouldnt");
+        negations.add("couldnt");
         negations.add("never");
         negations.add("aint");
     }
@@ -119,14 +121,11 @@ public class Parser {
                                 wm.addCountNegative(words[j]);
                             } else if(negative && negations.contains(previousWord)){
                                 wm.addCountNeutral(words[j]);
-                            } 
-
-                            else if(!negative){
+                            } else if(!negative){
                                 wm.addCountNeutral(words[j]);
                             } else if(negative){
                                 wm.addCountNegative(words[j]);
                             }
-
                         }
 
                         previousWord = words[j];
@@ -230,35 +229,40 @@ public class Parser {
         return successful;
     }
 
+    /*
+     * Creates a Word object from a line in the format of
+     * word classifications.
+     */
     public Word getWordFromLine(String line) {
       Word objWord = null;
+
       try {
-        String []data = line.split(" ");
-        String subj = data[colSubj].split("=")[1];
-        //Ignoring len (colLen)
-        String word = data[colWord].split("=")[1];
-        String pos = data[colPos].split("=")[1];
-        String stemmed = data[colStemmed].split("=")[1];
+        String[] data   = line.split(" ");
+        String subj     = data[colSubj].split("=")[1];
+        // Ignoring Len (colLen)
+        String word     = data[colWord].split("=")[1];
+        String pos      = data[colPos].split("=")[1];
+        String stemmed  = data[colStemmed].split("=")[1];
         String polarity = data[colPolarity].split("=")[1];
+
         objWord = new Word(word, Word.strToSubjectivity(subj),
-            Word.strToPosition(pos), Word.strToStemmed(stemmed),
-            Word.strToPolarity(polarity));
+                Word.strToPosition(pos), Word.strToStemmed(stemmed),
+                Word.strToPolarity(polarity));
       } catch (Exception e) {
         System.err.println("Error when parsing line for a word");
         e.printStackTrace();
         System.exit(1);
       }
+
       return objWord;
     }
 
     /*
-     * TODO This is probably too slow to do multiple times.
-     *
      * Returns a Word object created with the info stored in the
      * classifications text file.
      * Returns null if the word is not found.
      */
-    public Word getWord(String word) {
+    public Word getWord(String strWord) {
         Word objWord = null;
 
         Scanner sc;
@@ -268,16 +272,11 @@ public class Parser {
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-                String[] lineData = line.split(" ");
 
-                // Extract word here to avoid extracing more data in vain
-                String lineWord = lineData[2].split("=")[1];
+                objWord = getWordFromLine(line);
 
                 // Check if line contains word
-                if (lineWord.equals(word)) {
-                    objWord = createWord(lineData);
-                    break;
-                }
+                if (objWord.word.equals(strWord)) break;
             }
 
             sc.close();
@@ -290,23 +289,6 @@ public class Parser {
     }
 
     /*
-     * Creates a Word object from a line in the format of
-     * word classifications.
-     */
-    private Word createWord(String[] lineData) {
-        String subj     = lineData[colSubj].split("=")[1];
-        // Len is ignored
-        String word     = lineData[colWord].split("=")[1];
-        String pos      = lineData[colPos].split("=")[1];
-        String stemmed  = lineData[colStemmed].split("=")[1];
-        String polarity = lineData[colPolarity].split("=")[1];
-
-        return new Word(word, Word.strToSubjectivity(subj),
-                Word.strToPosition(pos), Word.strToStemmed(stemmed),
-                Word.strToPolarity(polarity));
-    }
-
-    /*
      * Takes a WordMap of training data and add the frequences of the words
      * as they appeared in the given Scanner.
      * Returns true if successful.
@@ -314,9 +296,7 @@ public class Parser {
 
     public ArrayList<String> readTokens(String fileName) {
         Scanner sc1, sc2;
-        boolean successful = false;
         ArrayList<String> wordList = new ArrayList<String>();
-
 
         try {
             sc1 = new Scanner(new File(fileName));
@@ -333,7 +313,6 @@ public class Parser {
                 sc2.close();
             }
 
-            successful = true;
             sc1.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());

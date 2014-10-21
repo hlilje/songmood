@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 /*
- * Classifier which determines whether the probability of a document
+ * Classifier which determines the probability of a document
  * belonging to a certain class.
  */
 public class NaiveBayesClassifier {
@@ -43,7 +43,7 @@ public class NaiveBayesClassifier {
         ArrayList<String> tokens = pr.readTokens(fileName);
 
         for (String word : tokens) {
-            
+
             //For each word, check frequency of word
             if(negative){
                 classification += korpus.getFrequencyNegative(word);

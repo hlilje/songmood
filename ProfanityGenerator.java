@@ -30,7 +30,6 @@ public class ProfanityGenerator {
         profanitiesPlural.add(profanity);
     }
 
-
     /*
      * Returns a random singular Haddock profanity.
      */
