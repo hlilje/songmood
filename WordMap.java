@@ -9,7 +9,7 @@ import java.util.Set;
  */
 public class WordMap {
 
-    private static final float SMOOTHING = 0;
+    private static final double SMOOTHING = 0;
 
     //Total number of counts for all words
     private int totalCount;
@@ -74,22 +74,22 @@ public class WordMap {
     /*
      * Returns the total frequency of the given word.
      */
-    public float getFrequency(String word){
-        return ((float) getCount(word.toLowerCase())) / ((float) totalCount);
+    public double getFrequency(String word){
+        return ((double) getCount(word.toLowerCase())) / ((double) totalCount);
     }
 
     /*
      * Returns the neutral frequency of the given word.
      */
-    public float getFrequencyNeutral(String word){
-        return (float) getCountNeutral(word.toLowerCase()) / (float) totalCount;
+    public double getFrequencyNeutral(String word){
+        return (double) getCountNeutral(word.toLowerCase()) / (double) totalCount;
     }
 
     /*
      * Returns the negative frequency of the given word.
      */
-    public float getFrequencyNegative(String word){
-        return (float) getCountNegative(word.toLowerCase()) / (float) totalCount;
+    public double getFrequencyNegative(String word){
+        return (double) getCountNegative(word.toLowerCase()) / (double) totalCount;
     }
 
     /*
