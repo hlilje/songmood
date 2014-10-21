@@ -15,10 +15,11 @@ public class Parser {
     public static final String WORD_CLASSIFICATIONS             = "txt/word_classifications.txt";
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
 
-    public static final String [] TRAINING_TEXT_PROFANE         = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt",
-                                                                    "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt",
-                                                                    "txt/negative/dance_with_the_devil.txt"};
-    public static final String [] TRAINING_TEXT_NEUTRAL         = {"txt/neutral/willsmith.txt", "txt/neutral/macklemore.txt"};
+    public static final String[] TRAINING_TEXT_PROFANE          = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt",
+                                                                   "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt",
+                                                                   "txt/negative/dance_with_the_devil.txt"};
+    public static final String[] TRAINING_TEXT_NEUTRAL          = {"txt/neutral/willsmith.txt", "txt/neutral/macklemore.txt",
+                                                                   "txt/neutral/hoodie_allen.txt"};
 
     private static final ArrayList<String> negations = new ArrayList<String>();
 
