@@ -26,15 +26,10 @@ public class NaiveBayesClassifier {
      * Trains the variables of our NaiveBayesClassifier according to our training data.
      */
     public void train() {
-        korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_PROFANE, korpus, true);
-        korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL, korpus, false);
+        korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_PROFANE, korpus);
     }
 
-    /*
-     * Takes a filename and returns a score between 0 and 1 based on how
-     * profane the text is.
-     */
-    public double classify(String fileName, boolean negative){
+    public double classify(String fileName) {
 
         int totalCount = 0;
         double classification = 0.0d;
@@ -45,11 +40,7 @@ public class NaiveBayesClassifier {
         for (String word : tokens) {
 
             //For each word, check frequency of word
-            if(negative){
-                classification += korpus.getFrequencyNegative(word);
-            } else {
-                classification += korpus.getFrequencyNeutral(word);
-            }
+            classification += korpus.getFrequency(word);
 
             ++totalCount;
         }

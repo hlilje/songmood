@@ -42,33 +42,13 @@ public class WordMap {
     }
 
     /*
-     * Increase positive count for given word.
+     * Increase count for given word.
      */
-    public void addCountPositive(String word) {
+    public void addCount(String word) {
 
         totalCount++;
 
-        if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).addPositive();
-    }
-
-    /*
-     * Increase negative count for given word.
-     */
-    public void addCountNegative(String word) {
-
-        totalCount++;
-
-        if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).addNegative();
-    }
-
-    /*
-     * Increase neutral count for given word.
-     */
-    public void addCountNeutral(String word) {
-
-        totalCount++;
-
-        if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).addNeutral();
+        if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).increaseCount();
     }
 
     /*
@@ -79,27 +59,12 @@ public class WordMap {
     }
 
     /*
-     * Returns the neutral frequency of the given word.
-     */
-    public double getFrequencyNeutral(String word){
-        return (double) getCountNeutral(word.toLowerCase()) / (double) totalCount;
-    }
-
-    /*
-     * Returns the negative frequency of the given word.
-     */
-    public double getFrequencyNegative(String word){
-        return (double) getCountNegative(word.toLowerCase()) / (double) totalCount;
-    }
-
-    /*
      * Returns the count of the given word.
      */
-    public int getCount(String strWord) {
-        if (!has(strWord.toLowerCase())) return 0;
+    public int getCount(String word) {
+        if (!has(word.toLowerCase())) return 0;
 
-        Word objWord = wordMap.get(strWord.toLowerCase());
-        return objWord.numPositive + objWord.numNegative + objWord.numNeutral;
+        return wordMap.get(word.toLowerCase()).numOccurrences;
     }
 
     /*
@@ -107,33 +72,6 @@ public class WordMap {
      */
     public int getTotalCount() {
         return totalCount;
-    }
-
-    /*
-     * Returns the count of all positive words.
-     */
-    public int getCountPositive(String word) {
-        if (!has(word.toLowerCase())) return 0;
-
-        return wordMap.get(word.toLowerCase()).numPositive;
-    }
-
-    /*
-     * Returns the count of all neutral words.
-     */
-    public int getCountNeutral(String word) {
-        if (!has(word.toLowerCase())) return 0;
-
-        return wordMap.get(word.toLowerCase()).numNeutral;
-    }
-
-    /*
-     * Returns the count of all negative words.
-     */
-    public int getCountNegative(String word) {
-        if (!has(word.toLowerCase())) return 0;
-
-        return wordMap.get(word.toLowerCase()).numNegative;
     }
 
     /*
@@ -145,7 +83,7 @@ public class WordMap {
             Word objWord = wordMap.get(strWord.toLowerCase());
 
             //Removes previous counts from total
-            totalCount -= (objWord.numPositive + objWord.numNegative + objWord.numNeutral);
+            totalCount -= (objWord.numOccurrences);
             objWord.resetCount();
         }
     }
@@ -169,8 +107,7 @@ public class WordMap {
             String key = entry.getKey();
             Word word = entry.getValue();
 
-            sb.append(key+ ":\tNegative: " + word.numNegative + " Positive: " +
-                    word.numPositive + " Neutral: " + word.numNeutral + "\n");
+            sb.append(key+ ":\tOccurrences: " + word.numOccurrences + "\n");
         }
 
         return sb.toString();
