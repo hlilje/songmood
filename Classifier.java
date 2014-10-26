@@ -37,14 +37,33 @@ public class Classifier {
     public Word.Polarity classify(String fileName) {
         Word.Polarity polarity = Word.Polarity.UNKNOWN;
 
-        // ArrayList<Score> positiveScores = getTextScores(fileName, positiveTexts,
-        //         Word.Polarity.POSITIVE);
+        // Calculate scores for all classes
+        ArrayList<Score> positiveScores = getTextScores(fileName, positiveTexts,
+                Word.Polarity.POSITIVE);
         ArrayList<Score> negativeScores = getTextScores(fileName, negativeTexts,
                 Word.Polarity.NEGATIVE);
         ArrayList<Score> neutralScores = getTextScores(fileName, neutralTexts,
                 Word.Polarity.NEUTRAL);
 
+        // Merge the scores into one list
+        ArrayList<Score> mergedScores = mergeScores(positiveScores, negativeScores,
+                neutralScores);
+
         return polarity;
+    }
+
+    /*
+     * Merges the three score lists into one list.
+     */
+    private ArrayList<Score> mergeScores(ArrayList<Score> positives,
+            ArrayList<Score> negatives, ArrayList<Score> neutrals) {
+        ArrayList<Score> combined = new ArrayList<Score>();
+
+        combined.addAll(positives);
+        combined.addAll(negatives);
+        combined.addAll(neutrals);
+
+        return combined;
     }
 
     /*
