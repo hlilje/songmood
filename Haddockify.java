@@ -4,15 +4,15 @@ public class Haddockify {
 
     private static WordMap wm;
     private static ProfanityGenerator pg;
-    private static Parser p;
+    private static Parser pr;
     private static TextGenerator tg;
-    private static NaiveBayesClassifier nbc;
+    private static Classifier cl;
     private static String filePath;
 
     public static void main(String[] args) {
         wm = new WordMap();
         pg = new ProfanityGenerator();
-        p = new Parser();
+        pr = new Parser();
 
         // Expects the source text to Haddockify as the first argument
         if (args.length == 0) {
@@ -31,19 +31,19 @@ public class Haddockify {
         }
 
         // Read all the singular Haddock profanities
-        if (!p.readProfanitiesSingular(pg)) {
+        if (!pr.readProfanitiesSingular(pg)) {
             System.err.println("Failed to parse singular profanities");
             return;
         }
 
         // Read all the plural Haddock profanities
-        if (!p.readProfanitiesPlural(pg)) {
+        if (!pr.readProfanitiesPlural(pg)) {
             System.err.println("Failed to parse plural profanities");
             return;
         }
 
-        nbc = new NaiveBayesClassifier();
-        nbc.train();
+        cl = new Classifier();
+        cl.train();
 
         DecimalFormat df = new DecimalFormat("#.##");
 

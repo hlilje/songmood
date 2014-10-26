@@ -10,14 +10,14 @@ import java.util.Set;
  * Classifier which determines the probability of a document
  * belonging to a certain class.
  */
-public class NaiveBayesClassifier {
+public class Classifier {
 
     private Parser pr;
     private ArrayList<WordMap> positiveTexts;
     private ArrayList<WordMap> negativeTexts;
     private ArrayList<WordMap> neutralTexts;
 
-    public NaiveBayesClassifier() {
+    public Classifier() {
         pr = new Parser();
 
         //Generates a WordMap from our word classifications
@@ -25,7 +25,7 @@ public class NaiveBayesClassifier {
     }
 
     /*
-     * Trains the variables of our NaiveBayesClassifier according to our training data.
+     * Trains the variables of the Classifier according to the training data.
      */
     public void train() {
         // positiveTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE, korpus);
@@ -50,18 +50,6 @@ public class NaiveBayesClassifier {
         }
 
         return classification / totalCount;
-    }
-
-    /*
-     * Applies the multinomial naive Bayes algorithm on the given file and
-     * returns the highest probability.
-     */
-    private double applyMultinomialClassification(String fileName) {
-        //TODO check whether our tokens are included in our korpus, check frequency, compute bayes
-
-        // Return the highest probability
-        // return Collections.max(score);
-        return 0.0d;
     }
 
     /*
