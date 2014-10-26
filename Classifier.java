@@ -33,7 +33,28 @@ public class Classifier {
         neutralTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL);
     }
 
-    public double classify(String fileName) {
+    /*
+     * Returns a list of all (score, polarity) pairs generated from the
+     * given list of WordMaps.
+     */
+    private ArrayList<Score> getTextScores(String fileName,
+            ArrayList<WordMap> texts, Word.Polarity polarity) {
+        ArrayList<Score> scores = new ArrayList<Score>();
+
+        for (WordMap wm : texts) {
+            double score = scoreText(fileName, wm);
+
+            scores.add(new Score(score, polarity));
+        }
+
+        return scores;
+    }
+
+    /*
+     * Classifies the given text and according to the given WormMap.
+     * Returns the classification (score).
+     */
+    private double scoreText(String fileName, WordMap wm) {
 
         int totalCount = 0;
         double classification = 0.0d;
@@ -44,7 +65,7 @@ public class Classifier {
         for (String word : tokens) {
 
             //For each word, check frequency of word
-            // classification += korpus.getFrequency(word);
+            classification += wm.getFrequency(word);
 
             ++totalCount;
         }

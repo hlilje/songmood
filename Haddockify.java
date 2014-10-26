@@ -24,7 +24,7 @@ public class Haddockify {
         } else {
             filePath = args[0];
 
-            /*if (!p.readSourceFile(wm, filePath)) {
+            /*if (!pr.readSourceFile(wm, filePath)) {
                 System.err.println("Failed to parse source file");
                 return;
             }*/

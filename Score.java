@@ -1,11 +1,11 @@
 /*
- * An object capable of holding a score and a polarity.
+ * A Score object capable of holding a score and a polarity.
  */
-public class Pair<X, Y> { 
+public class Score { 
     public final double score; 
     public final Word.Polarity polarity; 
 
-    public Pair(double score, Word.Polarity polarity) { 
+    public Score(double score, Word.Polarity polarity) { 
         this.score = score; 
         this.polarity = polarity; 
     } 
