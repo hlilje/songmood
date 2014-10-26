@@ -13,22 +13,24 @@ import java.util.Set;
 public class NaiveBayesClassifier {
 
     private Parser pr;
-    private WordMap korpus;
+    private ArrayList<WordMap> positiveTexts;
+    private ArrayList<WordMap> negativeTexts;
+    private ArrayList<WordMap> neutralTexts;
 
     public NaiveBayesClassifier() {
         pr = new Parser();
 
         //Generates a WordMap from our word classifications
-        korpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
+        // korpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
     }
 
     /*
      * Trains the variables of our NaiveBayesClassifier according to our training data.
      */
     public void train() {
-        // korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE, korpus);
-        korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_NEGATIVE, korpus);
-        korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL, korpus);
+        // positiveTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE, korpus);
+        negativeTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEGATIVE);
+        neutralTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL);
     }
 
     public double classify(String fileName) {
@@ -42,7 +44,7 @@ public class NaiveBayesClassifier {
         for (String word : tokens) {
 
             //For each word, check frequency of word
-            classification += korpus.getFrequency(word);
+            // classification += korpus.getFrequency(word);
 
             ++totalCount;
         }

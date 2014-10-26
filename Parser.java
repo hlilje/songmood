@@ -66,20 +66,22 @@ public class Parser {
         return wm;
     }
 
-    public WordMap countWordOccurences(String [] filePaths, WordMap wm) {
+    public ArrayList<WordMap> countWordOccurences(String [] filePaths) {
 
         Scanner sc1, sc2;
+        ArrayList<WordMap> wordMaps = new ArrayList<WordMap>();
 
         //Returns the file if length is zero
         if(filePaths.length == 0){
             System.err.println("countWordOccurences cannot recieve an empty array for filenames");
-            return wm;
+            return null;
         }
 
         try {
             //For each training file
             for(int i = 0; i < filePaths.length; i++){
                 sc1 = new Scanner(new File(filePaths[i]));
+                WordMap wm = new WordMap();
 
                 while (sc1.hasNextLine()) {
                     String[] words = sc1.nextLine().split(" ");
@@ -96,6 +98,8 @@ public class Parser {
                     }
                 }
 
+                wordMaps.add(wm);
+
                 sc1.close();
             }
 
@@ -106,7 +110,7 @@ public class Parser {
             return null;
         }
 
-        return wm;
+        return wordMaps;
     }
 
     /*
