@@ -47,12 +47,12 @@ public class Haddockify {
 
         DecimalFormat df = new DecimalFormat("#.##");
 
+        cl.classify(filePath);
+
         // Double negativeScore = nbc.classify(filePath, true);
         // Double neutralScore = nbc.classify(filePath, false);
 
         // System.out.println(df.format(negativeScore / neutralScore) + " times as profane as control data.");
         // System.out.println("Negative match: " + negativeScore + ", Neutral match: " + neutralScore);
-
-        //TODO use the text generator to add Haddock profanities based on the probability
     }
 }

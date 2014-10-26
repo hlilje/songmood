@@ -11,6 +11,8 @@ import java.util.Set;
  */
 public class Classifier {
 
+    public static int k = 10; // k value for k-nearest neighbours
+
     private Parser pr;
     private ArrayList<WordMap> positiveTexts;
     private ArrayList<WordMap> negativeTexts;
@@ -24,7 +26,7 @@ public class Classifier {
      * Trains the variables of the Classifier according to the training data.
      */
     public void train() {
-        // positiveTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE, korpus);
+        positiveTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE);
         negativeTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEGATIVE);
         neutralTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL);
     }
@@ -48,6 +50,10 @@ public class Classifier {
         // Merge the scores into one list
         ArrayList<Score> mergedScores = mergeScores(positiveScores, negativeScores,
                 neutralScores);
+
+        // Sort the Score tuples on score in descending order
+        Collections.sort(mergedScores);
+        Collections.reverse(mergedScores);
 
         return polarity;
     }

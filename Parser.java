@@ -15,7 +15,8 @@ public class Parser {
     public static final String WORD_CLASSIFICATIONS             = "txt/word_classifications.txt";
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
 
-    public static final String[] TRAINING_TEXT_POSITIVE         = {"txt/TODO"};
+    // TODO Add positive texts
+    public static final String[] TRAINING_TEXT_POSITIVE         = {"txt/negative/dance_with_the_devil.txt"};
     public static final String[] TRAINING_TEXT_NEGATIVE         = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt",
                                                                    "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt",
                                                                    "txt/negative/dance_with_the_devil.txt"};
