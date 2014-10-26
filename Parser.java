@@ -15,7 +15,8 @@ public class Parser {
     public static final String WORD_CLASSIFICATIONS             = "txt/word_classifications.txt";
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
 
-    public static final String[] TRAINING_TEXT_PROFANE          = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt",
+    public static final String[] TRAINING_TEXT_POSITIVE         = {"txt/TODO"};
+    public static final String[] TRAINING_TEXT_NEGATIVE         = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt",
                                                                    "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt",
                                                                    "txt/negative/dance_with_the_devil.txt"};
     public static final String[] TRAINING_TEXT_NEUTRAL          = {"txt/neutral/willsmith.txt", "txt/neutral/macklemore.txt",
@@ -71,18 +72,16 @@ public class Parser {
 
         //Returns the file if length is zero
         if(filePaths.length == 0){
-            System.err.println("mapWordOccurences cannot recieve an empty array for filenames");
+            System.err.println("countWordOccurences cannot recieve an empty array for filenames");
             return wm;
         }
 
         try {
             //For each training file
             for(int i = 0; i < filePaths.length; i++){
-
                 sc1 = new Scanner(new File(filePaths[i]));
 
                 while (sc1.hasNextLine()) {
-
                     String[] words = sc1.nextLine().split(" ");
 
                     for(int j = 0; j < words.length; j++){

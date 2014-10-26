@@ -26,7 +26,9 @@ public class NaiveBayesClassifier {
      * Trains the variables of our NaiveBayesClassifier according to our training data.
      */
     public void train() {
-        korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_PROFANE, korpus);
+        // korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE, korpus);
+        korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_NEGATIVE, korpus);
+        korpus = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL, korpus);
     }
 
     public double classify(String fileName) {
