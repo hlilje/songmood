@@ -7,8 +7,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 /*
- * Classifier which determines the probability of a document
- * belonging to a certain class.
+ * Classifier which determines which class a document belongs to.
  */
 public class Classifier {
 
@@ -19,9 +18,6 @@ public class Classifier {
 
     public Classifier() {
         pr = new Parser();
-
-        //Generates a WordMap from our word classifications
-        // korpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
     }
 
     /*
@@ -31,6 +27,24 @@ public class Classifier {
         // positiveTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE, korpus);
         negativeTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEGATIVE);
         neutralTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL);
+    }
+
+    /*
+     * Performs a k-nearest neigbours test to classify the given
+     * text with a polarity.
+     * Assumes training has been done beforehand.
+     */
+    public Word.Polarity classify(String fileName) {
+        Word.Polarity polarity = Word.Polarity.UNKNOWN;
+
+        // ArrayList<Score> positiveScores = getTextScores(fileName, positiveTexts,
+        //         Word.Polarity.POSITIVE);
+        ArrayList<Score> negativeScores = getTextScores(fileName, negativeTexts,
+                Word.Polarity.NEGATIVE);
+        ArrayList<Score> neutralScores = getTextScores(fileName, neutralTexts,
+                Word.Polarity.NEUTRAL);
+
+        return polarity;
     }
 
     /*
