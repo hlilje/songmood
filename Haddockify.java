@@ -47,7 +47,7 @@ public class Haddockify {
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        cl.classify(filePath);
+        System.out.println(cl.classify(filePath));
 
         // Double negativeScore = nbc.classify(filePath, true);
         // Double neutralScore = nbc.classify(filePath, false);

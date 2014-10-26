@@ -37,8 +37,6 @@ public class Classifier {
      * Assumes training has been done beforehand.
      */
     public Word.Polarity classify(String fileName) {
-        Word.Polarity polarity = Word.Polarity.UNKNOWN;
-
         // Calculate scores for all classes
         ArrayList<Score> positiveScores = getTextScores(fileName, positiveTexts,
                 Word.Polarity.POSITIVE);
@@ -48,28 +46,50 @@ public class Classifier {
                 Word.Polarity.NEUTRAL);
 
         // Merge the scores into one list
-        ArrayList<Score> mergedScores = mergeScores(positiveScores, negativeScores,
-                neutralScores);
+        ArrayList<Score> mergedScores = new ArrayList<Score>();
+        mergedScores.addAll(positiveScores);
+        mergedScores.addAll(negativeScores);
+        mergedScores.addAll(neutralScores);
 
         // Sort the Score tuples on score in descending order
         Collections.sort(mergedScores);
         Collections.reverse(mergedScores);
 
-        return polarity;
+        return getNearestNeighbour(mergedScores);
     }
 
     /*
-     * Merges the three score lists into one list.
+     * Returns the major polarity for the given list of scores according
+     * to the top k neighbours.
      */
-    private ArrayList<Score> mergeScores(ArrayList<Score> positives,
-            ArrayList<Score> negatives, ArrayList<Score> neutrals) {
-        ArrayList<Score> combined = new ArrayList<Score>();
+    private Word.Polarity getNearestNeighbour(ArrayList<Score> scores) {
+        Word.Polarity polarity = Word.Polarity.UNKNOWN;
+        int numPositive = 0, numNegative = 0, numNeutral = 0;
 
-        combined.addAll(positives);
-        combined.addAll(negatives);
-        combined.addAll(neutrals);
+        // Make sure k value is not greater than number of scores
+        int limit = scores.size();
+        if (k < scores.size()) limit = k;
 
-        return combined;
+        for (int i=0; i<limit; ++i) {
+            Score s = scores.get(i);
+
+            // Ignores UNKNOWN polarity
+            if (s.polarity == Word.Polarity.POSITIVE)
+                ++numPositive;
+            else if (s.polarity == Word.Polarity.NEGATIVE)
+                ++numNegative;
+            else if (s.polarity == Word.Polarity.NEUTRAL)
+                ++numNeutral;
+        }
+
+        if (numPositive >= Math.max(numNegative, numNeutral))
+            polarity = Word.Polarity.POSITIVE;
+        else if (numNegative >= Math.max(numPositive, numNeutral))
+            polarity = Word.Polarity.NEGATIVE;
+        else if (numNeutral >= Math.max(numPositive, numNegative))
+            polarity = Word.Polarity.NEUTRAL;
+
+        return polarity;
     }
 
     /*
