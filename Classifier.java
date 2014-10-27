@@ -73,7 +73,7 @@ public class Classifier {
      */
     private Word.Polarity getNearestNeighbour(ArrayList<Score> scores) {
         Word.Polarity polarity = Word.Polarity.UNKNOWN;
-        int numPositive = 0, numNegative = 0, numNeutral = 0;
+        int numPositive = 0, numNegative = 0, numNeutral = 0, numUnknown = 0;
 
         // Make sure k value is not greater than number of scores
         int limit = scores.size();
@@ -82,22 +82,25 @@ public class Classifier {
         for (int i=0; i<limit; ++i) {
             Score s = scores.get(i);
 
-            // Ignores UNKNOWN polarity
             if (s.polarity == Word.Polarity.POSITIVE)
                 ++numPositive;
             else if (s.polarity == Word.Polarity.NEGATIVE)
                 ++numNegative;
             else if (s.polarity == Word.Polarity.NEUTRAL)
                 ++numNeutral;
+            else // Unknown
+                ++numUnknown;
         }
 
         // Pick the most frequent polarity
-        if (numPositive > 0 && numPositive >= Math.max(numNegative, numNeutral))
+        if (numPositive >= Math.max(Math.max(numNegative, numNeutral), numUnknown))
             polarity = Word.Polarity.POSITIVE;
-        else if (numNegative > 0 && numNegative >= Math.max(numPositive, numNeutral))
+        else if (numNegative >= Math.max(Math.max(numPositive, numNeutral), numUnknown))
             polarity = Word.Polarity.NEGATIVE;
-        else if (numNeutral > 0 && numNeutral >= Math.max(numPositive, numNegative))
+        else if (numNeutral >= Math.max(Math.max(numPositive, numNegative), numUnknown))
             polarity = Word.Polarity.NEUTRAL;
+        else if (numUnknown >= Math.max(Math.max(numPositive, numNegative), numNeutral))
+            polarity = Word.Polarity.UNKNOWN;
 
         return polarity;
     }
