@@ -42,31 +42,71 @@ public class WordMap {
     }
 
     /*
-     * Increase count for given word.
+     * Increase positive count for given word.
      */
-    public void addCount(String word) {
+    public void addCountPositive(String word) {
 
         totalCount++;
 
-        if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).increaseCount();
+        if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).addPositive();
+    }
+
+    /*
+     * Increase negative count for given word.
+     */
+    public void addCountNegative(String word) {
+
+        totalCount++;
+
+        if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).addNegative();
+    }
+
+    /*
+     * Increase neutral count for given word.
+     */
+    public void addCountNeutral(String word) {
+
+        totalCount++;
+
+        if (has(word.toLowerCase())) wordMap.get(word.toLowerCase()).addNeutral();
     }
 
     /*
      * Returns the total frequency of the given word.
      */
     public double getFrequency(String word){
-        if (totalCount == 0) return 0.0d;
+        return (double) getCount(word.toLowerCase()) / (double) totalCount;
+    }
 
-        return ((double) getCount(word.toLowerCase())) / ((double) totalCount);
+    /*
+     * Returns the postive frequency of the given word.
+     */
+    public double getFrequencyPositive(String word){
+        return (double) getCountPositive(word.toLowerCase()) / (double) totalCount;
+    }
+
+    /*
+     * Returns the negative frequency of the given word.
+     */
+    public double getFrequencyNegative(String word){
+        return (double) getCountNegative(word.toLowerCase()) / (double) totalCount;
+    }
+
+    /*
+     * Returns the neutral frequency of the given word.
+     */
+    public double getFrequencyNeutral(String word){
+        return (double) getCountNeutral(word.toLowerCase()) / (double) totalCount;
     }
 
     /*
      * Returns the count of the given word.
      */
-    public int getCount(String word) {
-        if (!has(word.toLowerCase())) return 0;
+    public int getCount(String strWord) {
+        if (!has(strWord.toLowerCase())) return 0;
 
-        return wordMap.get(word.toLowerCase()).numOccurrences;
+        Word objWord = wordMap.get(strWord.toLowerCase());
+        return objWord.numPositive + objWord.numNegative + objWord.numNeutral;
     }
 
     /*
@@ -74,6 +114,33 @@ public class WordMap {
      */
     public int getTotalCount() {
         return totalCount;
+    }
+
+    /*
+     * Returns the count of all positive words.
+     */
+    public int getCountPositive(String word) {
+        if (!has(word.toLowerCase())) return 0;
+
+        return wordMap.get(word.toLowerCase()).numPositive;
+    }
+
+    /*
+     * Returns the count of all negative words.
+     */
+    public int getCountNegative(String word) {
+        if (!has(word.toLowerCase())) return 0;
+
+        return wordMap.get(word.toLowerCase()).numNegative;
+    }
+
+    /*
+     * Returns the count of all neutral words.
+     */
+    public int getCountNeutral(String word) {
+        if (!has(word.toLowerCase())) return 0;
+
+        return wordMap.get(word.toLowerCase()).numNeutral;
     }
 
     /*
@@ -85,16 +152,9 @@ public class WordMap {
             Word objWord = wordMap.get(strWord.toLowerCase());
 
             //Removes previous counts from total
-            totalCount -= (objWord.numOccurrences);
+            totalCount -= (objWord.numPositive + objWord.numNegative + objWord.numNeutral);
             objWord.resetCount();
         }
-    }
-
-    /*
-     * Returns the entry set for the hash map.
-     */
-    public Set<Map.Entry<String, Word>> getEntrySet() {
-        return wordMap.entrySet();
     }
 
     /*
@@ -109,7 +169,8 @@ public class WordMap {
             String key = entry.getKey();
             Word word = entry.getValue();
 
-            sb.append(key+ ":\tOccurrences: " + word.numOccurrences + "\n");
+            sb.append(key+ ":\tNegative: " + word.numNegative + " Positive: " +
+                    word.numPositive + " Neutral: " + word.numNeutral + "\n");
         }
 
         return sb.toString();
