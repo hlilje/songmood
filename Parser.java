@@ -15,13 +15,9 @@ public class Parser {
     public static final String WORD_CLASSIFICATIONS             = "txt/word_classifications.txt";
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
 
-    // TODO Add positive texts
-    public static final String[] TRAINING_TEXT_POSITIVE         = {"txt/negative/dance_with_the_devil.txt"};
-    public static final String[] TRAINING_TEXT_NEGATIVE         = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt",
-                                                                   "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt",
-                                                                   "txt/negative/dance_with_the_devil.txt"};
-    public static final String[] TRAINING_TEXT_NEUTRAL          = {"txt/neutral/willsmith.txt", "txt/neutral/macklemore.txt",
-                                                                   "txt/neutral/hoodie_allen.txt"};
+    public static final String TRAINING_TEXT_POSITIVE_FILENAMES = "txt/positive_filenames.txt";
+    public static final String TRAINING_TEXT_NEGATIVE_FILENAMES = "txt/negative_filenames.txt";
+    public static final String TRAINING_TEXT_NEUTRAL_FILENAMES  = "txt/neutral_filenames.txt";
 
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
@@ -67,25 +63,24 @@ public class Parser {
         return wm;
     }
 
-    public ArrayList<WordMap> countWordOccurences(String [] filePaths, WordMap wm) {
+    public ArrayList<WordMap> countWordOccurences(String filePaths, WordMap wm) {
 
         Scanner sc1, sc2;
         ArrayList<WordMap> wordMaps = new ArrayList<WordMap>();
 
-        //Returns the file if length is zero
-        if(filePaths.length == 0){
-            System.err.println("countWordOccurences cannot recieve an empty array for filenames");
-            return null;
-        }
-
         try {
+            sc1 = new Scanner(new File(filePaths));
+
             //For each training file
-            for(int i = 0; i < filePaths.length; i++){
-                sc1 = new Scanner(new File(filePaths[i]));
+            while (sc1.hasNextLine()) {
+                // Contains one filename per row
+                String currentFile = sc1.nextLine();
+
+                sc2 = new Scanner(new File(currentFile));
                 WordMap textMap = new WordMap(); // Map for this text
 
-                while (sc1.hasNextLine()) {
-                    String[] words = sc1.nextLine().split(" ");
+                while (sc2.hasNextLine()) {
+                    String[] words = sc2.nextLine().split(" ");
 
                     for(int j = 0; j < words.length; j++){
 
@@ -107,9 +102,10 @@ public class Parser {
 
                 wordMaps.add(textMap);
 
-                sc1.close();
+                sc2.close();
             }
 
+            sc1.close();
         } catch (Exception e) {
             System.err.println("Error in countWordOccurences");
             System.err.println(e.getMessage());

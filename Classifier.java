@@ -29,9 +29,9 @@ public class Classifier {
      * Trains the variables of the Classifier according to the training data.
      */
     public void train() {
-        positiveTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE, korpus);
-        negativeTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEGATIVE, korpus);
-        neutralTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL, korpus);
+        positiveTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE_FILENAMES, korpus);
+        negativeTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEGATIVE_FILENAMES, korpus);
+        neutralTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL_FILENAMES, korpus);
     }
 
     /*
