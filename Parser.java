@@ -20,9 +20,9 @@ public class Parser {
     public static final String WORD_CLASSIFICATIONS             = FOLDER_TXT + "word_classifications.txt";
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = FOLDER_TXT + "word_classifications_profanities.txt";
 
-    public static final String TRAINING_TEXT_POSITIVE_FILENAMES = FOLDER_TXT + "positive_filenames.txt";
-    public static final String TRAINING_TEXT_NEGATIVE_FILENAMES = FOLDER_TXT + "negative_filenames.txt";
-    public static final String TRAINING_TEXT_NEUTRAL_FILENAMES  = FOLDER_TXT + "neutral_filenames.txt";
+    public static final String TRAINING_TEXT_POSITIVE_FILENAMES = FOLDER_TXT + "filenames_positive.txt";
+    public static final String TRAINING_TEXT_NEGATIVE_FILENAMES = FOLDER_TXT + "filenames_negative.txt";
+    public static final String TRAINING_TEXT_NEUTRAL_FILENAMES  = FOLDER_TXT + "filenames_neutral.txt";
 
     @SuppressWarnings("serial")
     private static final ArrayList<String> negations = new ArrayList<String>() {{
