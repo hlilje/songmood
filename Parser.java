@@ -10,31 +10,36 @@ import java.util.Scanner;
  */
 public class Parser {
 
-    public static final String PROFANITIES_SINGULAR             = "txt/profanities_singular.txt";
-    public static final String PROFANITIES_PLURAL               = "txt/profanities_plural.txt";
-    public static final String WORD_CLASSIFICATIONS             = "txt/word_classifications.txt";
-    public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
+    private static final String FOLDER_TXT                      = "txt/";
+    private static final String FOLDER_POSITIVE                 = "positive/";
+    private static final String FOLDER_NEGATIVE                 = "negative/";
+    private static final String FOLDER_NEUTRAL                  = "neutral/";
 
-    public static final String TRAINING_TEXT_POSITIVE_FILENAMES = "txt/positive_filenames.txt";
-    public static final String TRAINING_TEXT_NEGATIVE_FILENAMES = "txt/negative_filenames.txt";
-    public static final String TRAINING_TEXT_NEUTRAL_FILENAMES  = "txt/neutral_filenames.txt";
+    public static final String PROFANITIES_SINGULAR             = FOLDER_TXT + "profanities_singular.txt";
+    public static final String PROFANITIES_PLURAL               = FOLDER_TXT + "profanities_plural.txt";
+    public static final String WORD_CLASSIFICATIONS             = FOLDER_TXT + "word_classifications.txt";
+    public static final String WORD_CLASSIFICATIONS_PROFANITIES = FOLDER_TXT + "word_classifications_profanities.txt";
+
+    public static final String TRAINING_TEXT_POSITIVE_FILENAMES = FOLDER_TXT + "positive_filenames.txt";
+    public static final String TRAINING_TEXT_NEGATIVE_FILENAMES = FOLDER_TXT + "negative_filenames.txt";
+    public static final String TRAINING_TEXT_NEUTRAL_FILENAMES  = FOLDER_TXT + "neutral_filenames.txt";
 
     @SuppressWarnings("serial")
     private static final ArrayList<String> negations = new ArrayList<String>() {{
-            add("no");
-            add("not");
-            add("neither");
-            add("nor");
-            add("dont");
-            add("wont");
-            add("cant");
-            add("isnt");
-            add("wasnt");
-            add("shouldnt");
-            add("couldnt");
-            add("never");
-            add("aint");
-        }};
+        add("no");
+        add("not");
+        add("neither");
+        add("nor");
+        add("dont");
+        add("wont");
+        add("cant");
+        add("isnt");
+        add("wasnt");
+        add("shouldnt");
+        add("couldnt");
+        add("never");
+        add("aint");
+    }};
 
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
@@ -90,6 +95,12 @@ public class Parser {
         Scanner sc1, sc2;
         ArrayList<WordMap> wordMaps = new ArrayList<WordMap>();
 
+        // Where the training texts are located
+        String subFolder;
+        if (polarity == Word.Polarity.POSITIVE) subFolder = FOLDER_POSITIVE;
+        else if (polarity == Word.Polarity.NEGATIVE) subFolder = FOLDER_NEGATIVE;
+        else subFolder = FOLDER_NEUTRAL;
+
         try {
             String previousWord = "";
 
@@ -98,7 +109,7 @@ public class Parser {
             //For each training file
             while (sc1.hasNextLine()) {
                 // Contains one filename per row
-                String currentFile = sc1.nextLine();
+                String currentFile = FOLDER_TXT + subFolder + sc1.nextLine();
 
                 sc2 = new Scanner(new File(currentFile));
                 WordMap textMap = new WordMap(); // Map for this text
