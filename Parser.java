@@ -19,6 +19,23 @@ public class Parser {
     public static final String TRAINING_TEXT_NEGATIVE_FILENAMES = "txt/negative_filenames.txt";
     public static final String TRAINING_TEXT_NEUTRAL_FILENAMES  = "txt/neutral_filenames.txt";
 
+    @SuppressWarnings("serial")
+    private static final ArrayList<String> negations = new ArrayList<String>() {{
+            add("no");
+            add("not");
+            add("neither");
+            add("nor");
+            add("dont");
+            add("wont");
+            add("cant");
+            add("isnt");
+            add("wasnt");
+            add("shouldnt");
+            add("couldnt");
+            add("never");
+            add("aint");
+        }};
+
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
     private static int colLen      = 1; // Not used
@@ -63,12 +80,19 @@ public class Parser {
         return wm;
     }
 
-    public ArrayList<WordMap> countWordOccurences(String filePaths, WordMap wm) {
+    /*
+     * Counts the number of occurrences of of words in the given texts
+     * based on polarity.
+     */
+    public ArrayList<WordMap> countWordOccurrences(String filePaths, WordMap wm,
+            Word.Polarity polarity) {
 
         Scanner sc1, sc2;
         ArrayList<WordMap> wordMaps = new ArrayList<WordMap>();
 
         try {
+            String previousWord = "";
+
             sc1 = new Scanner(new File(filePaths));
 
             //For each training file
@@ -82,21 +106,36 @@ public class Parser {
                 while (sc2.hasNextLine()) {
                     String[] words = sc2.nextLine().split(" ");
 
-                    for(int j = 0; j < words.length; j++){
+                    for (int j = 0; j < words.length; j++){
 
                         //Replaces all characters which might cause us to miss the key
                         words[j] = words[j].replaceAll("\\W", "");
 
                         //For each word, if it is in the WordMap increment the count
-                        if(wm.has(words[j])) {
+                        if (wm.has(words[j])) {
                             // Store a new word if it has not been created
-                            if(!textMap.has(words[j])) {
+                            if (!textMap.has(words[j])) {
                                 Word w = copyWord(wm.get(words[j]));
                                 textMap.put(words[j], w);
                             }
 
-                            textMap.addCount(words[j]);
+                            //If the words are negated, flip the count
+                            if (polarity == Word.Polarity.POSITIVE &&
+                                    negations.contains(previousWord)) { // Negate
+                                textMap.addCountNegative(words[j]);
+                            } else if (polarity == Word.Polarity.POSITIVE) {
+                                textMap.addCountPositive(words[j]);
+                            } else if (polarity == Word.Polarity.NEGATIVE &&
+                                    negations.contains(previousWord)) { // Negate
+                                textMap.addCountPositive(words[j]);
+                            } else if (polarity == Word.Polarity.NEGATIVE) {
+                                textMap.addCountNegative(words[j]);
+                            } else { // Neutral, don't negate
+                                textMap.addCountNeutral(words[j]);
+                            }
                         }
+
+                        previousWord = words[j];
                     }
                 }
 
@@ -289,8 +328,7 @@ public class Parser {
                 sc2 = new Scanner(sc1.nextLine());
 
                 while (sc2.hasNext()) {
-                    String strWord = sc2.next().replaceAll("\\W", "")
-                        .toLowerCase();
+                    String strWord = sc2.next().replaceAll("\\W", "").toLowerCase();
                     wordList.add(strWord);
                 }
 

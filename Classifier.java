@@ -21,6 +21,7 @@ public class Classifier {
 
     public Classifier() {
         pr = new Parser();
+
         // Create a new korpus of words to consider in the classification
         korpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
     }
@@ -29,9 +30,12 @@ public class Classifier {
      * Trains the variables of the Classifier according to the training data.
      */
     public void train() {
-        positiveTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE_FILENAMES, korpus);
-        negativeTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEGATIVE_FILENAMES, korpus);
-        neutralTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL_FILENAMES, korpus);
+        positiveTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_POSITIVE_FILENAMES,
+                korpus, Word.Polarity.POSITIVE);
+        negativeTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_NEGATIVE_FILENAMES,
+                korpus, Word.Polarity.NEGATIVE);
+        neutralTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_NEUTRAL_FILENAMES,
+                korpus, Word.Polarity.NEUTRAL);
     }
 
     /*
@@ -58,7 +62,7 @@ public class Classifier {
         Collections.sort(mergedScores);
         Collections.reverse(mergedScores);
 
-        System.out.println(mergedScores);
+        System.out.println(mergedScores); // DEBUG
 
         return getNearestNeighbour(mergedScores);
     }
@@ -87,6 +91,7 @@ public class Classifier {
                 ++numNeutral;
         }
 
+        // Pick the most frequent polarity
         if (numPositive >= Math.max(numNegative, numNeutral))
             polarity = Word.Polarity.POSITIVE;
         else if (numNegative >= Math.max(numPositive, numNeutral))
@@ -105,8 +110,9 @@ public class Classifier {
             ArrayList<WordMap> texts, Word.Polarity polarity) {
         ArrayList<Score> scores = new ArrayList<Score>();
 
+        // Go through all texts and create Score tuples with their polarity
         for (WordMap wm : texts) {
-            double score = scoreText(fileName, wm);
+            double score = scoreText(fileName, polarity, wm);
 
             scores.add(new Score(score, polarity));
         }
@@ -116,9 +122,10 @@ public class Classifier {
 
     /*
      * Classifies the given text and according to the given WormMap.
+     * Calculates the score based on given polarity.
      * Returns the classification (score).
      */
-    private double scoreText(String fileName, WordMap wm) {
+    private double scoreText(String fileName, Word.Polarity polarity, WordMap wm) {
 
         int totalCount = 0;
         double classification = 0.0d;
@@ -127,9 +134,14 @@ public class Classifier {
         ArrayList<String> tokens = pr.readTokens(fileName);
 
         for (String word : tokens) {
-
             //For each word, check frequency of word
-            classification += wm.getFrequency(word);
+            if (polarity == Word.Polarity.POSITIVE) {
+                classification += korpus.getFrequencyPositive(word);
+            } else if (polarity == Word.Polarity.NEGATIVE) {
+                classification += korpus.getFrequencyNegative(word);
+            } else { // Neutral
+                classification += korpus.getFrequencyNeutral(word);
+            }
 
             ++totalCount;
         }
