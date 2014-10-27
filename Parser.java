@@ -15,13 +15,13 @@ public class Parser {
     public static final String WORD_CLASSIFICATIONS             = "txt/word_classifications.txt";
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
 
-    public static final String[] TRAINING_TEXT_PROFANE          = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt",
+    // TODO Add positive texts
+    public static final String[] TRAINING_TEXT_POSITIVE         = {"txt/negative/dance_with_the_devil.txt"};
+    public static final String[] TRAINING_TEXT_NEGATIVE         = {"txt/negative/get_low.txt", "txt/negative/real_niggaz.txt",
                                                                    "txt/negative/go_2_sleep.txt", "txt/negative/fuck_tha_police.txt",
                                                                    "txt/negative/dance_with_the_devil.txt"};
     public static final String[] TRAINING_TEXT_NEUTRAL          = {"txt/neutral/willsmith.txt", "txt/neutral/macklemore.txt",
                                                                    "txt/neutral/hoodie_allen.txt"};
-
-    private static final ArrayList<String> negations = new ArrayList<String>();
 
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
@@ -31,21 +31,7 @@ public class Parser {
     private static int colStemmed  = 4;
     private static int colPolarity = 5;
 
-    public Parser() {
-        negations.add("no");
-        negations.add("not");
-        negations.add("neither");
-        negations.add("nor");
-        negations.add("dont");
-        negations.add("wont");
-        negations.add("cant");
-        negations.add("isnt");
-        negations.add("wasnt");
-        negations.add("shouldnt");
-        negations.add("couldnt");
-        negations.add("never");
-        negations.add("aint");
-    }
+    public Parser() {}
 
     /*
      * Takes a file of word classifications and parses them
@@ -81,32 +67,24 @@ public class Parser {
         return wm;
     }
 
-    /*
-     * Takes an array of strings containing file paths, and a WordMap.
-     * Increments the occurence if it finds a word contained in the WordMap.
-     * Returns the WordMap.
-     */
-    public WordMap countWordOccurences(String [] filePaths, WordMap wm, boolean negative){
+    public ArrayList<WordMap> countWordOccurences(String [] filePaths, WordMap wm) {
 
         Scanner sc1, sc2;
+        ArrayList<WordMap> wordMaps = new ArrayList<WordMap>();
 
         //Returns the file if length is zero
         if(filePaths.length == 0){
-            System.err.println("mapWordOccurences cannot recieve an empty array for filenames");
-            return wm;
+            System.err.println("countWordOccurences cannot recieve an empty array for filenames");
+            return null;
         }
 
         try {
-
-            String previousWord = "";
-
             //For each training file
             for(int i = 0; i < filePaths.length; i++){
-
                 sc1 = new Scanner(new File(filePaths[i]));
+                WordMap textMap = new WordMap(); // Map for this text
 
                 while (sc1.hasNextLine()) {
-
                     String[] words = sc1.nextLine().split(" ");
 
                     for(int j = 0; j < words.length; j++){
@@ -115,23 +93,19 @@ public class Parser {
                         words[j] = words[j].replaceAll("\\W", "");
 
                         //For each word, if it is in the WordMap increment the count
-                        if(wm.has(words[j])){
-
-                            //If the words are negated, flip the count
-                            if(!negative && negations.contains(previousWord)){
-                                wm.addCountNegative(words[j]);
-                            } else if(negative && negations.contains(previousWord)){
-                                wm.addCountNeutral(words[j]);
-                            } else if(!negative){
-                                wm.addCountNeutral(words[j]);
-                            } else if(negative){
-                                wm.addCountNegative(words[j]);
+                        if(wm.has(words[j])) {
+                            // Store a new word if it has not been created
+                            if(!textMap.has(words[j])) {
+                                Word w = copyWord(wm.get(words[j]));
+                                textMap.put(words[j], w);
                             }
-                        }
 
-                        previousWord = words[j];
+                            textMap.addCount(words[j]);
+                        }
                     }
                 }
+
+                wordMaps.add(textMap);
 
                 sc1.close();
             }
@@ -143,7 +117,20 @@ public class Parser {
             return null;
         }
 
-        return wm;
+        return wordMaps;
+    }
+
+    /*
+     * Helper method to create a new Word object from the given word.
+     */
+    private Word copyWord(Word w1) {
+        String word = w1.word;
+        Word.Subjectivity subjectivity = w1.subjectivity;
+        Word.Position position = w1.position;
+        boolean stemmed = w1.stemmed;
+        Word.Polarity polarity = w1.polarity;
+
+        return new Word(word, subjectivity, position, stemmed, polarity);
     }
 
     /*

@@ -35,11 +35,8 @@ public class Word {
     public boolean stemmed;
     public Polarity polarity;
 
-    // Number of occurrences in a text positive/negative text
-    // Neutral is also considered positive
-    public int numPositive;
-    public int numNegative;
-    public int numNeutral;
+    // Number of occurrences in a text
+    public int numOccurrences;
 
     public Word(String word, Subjectivity subjectivity, Position position,
             boolean stemmed, Polarity polarity) {
@@ -49,9 +46,7 @@ public class Word {
         this.stemmed = stemmed;
         this.polarity = polarity;
 
-        numPositive = 0;
-        numNegative = 0;
-        numNeutral = 0;
+        numOccurrences = 0;
     }
 
     /*
@@ -159,27 +154,16 @@ public class Word {
         String str = "\"" + word + "\" (strength: " + subjectivity + ", position: " + position +
             ", stemmed: " + stemmed + ", polarity: " + polarity + ")";
 
-        str = str + "\n#Positive: " + numPositive + ", #Negative: " + numNegative + ", #Neutral: " +
-            numNeutral;
+        str = str + "\n#Occurrences: " + numOccurrences;
 
         return str;
     }
 
-    public void addPositive() {
-        ++numPositive;
-    }
-
-    public void addNegative() {
-        ++numNegative;
-    }
-
-    public void addNeutral() {
-        ++numNeutral;
+    public void increaseCount() {
+        ++numOccurrences;
     }
 
     public void resetCount() {
-        numPositive = 0;
-        numNegative = 0;
-        numNeutral = 0;
+        numOccurrences = 0;
     }
 }
