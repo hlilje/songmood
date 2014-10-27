@@ -10,31 +10,36 @@ import java.util.Scanner;
  */
 public class Parser {
 
-    public static final String PROFANITIES_SINGULAR             = "txt/profanities_singular.txt";
-    public static final String PROFANITIES_PLURAL               = "txt/profanities_plural.txt";
-    public static final String WORD_CLASSIFICATIONS             = "txt/word_classifications.txt";
-    public static final String WORD_CLASSIFICATIONS_PROFANITIES = "txt/word_classifications_profanities.txt";
+    private static final String FOLDER_TXT                      = "txt/";
+    private static final String FOLDER_POSITIVE                 = "positive/";
+    private static final String FOLDER_NEGATIVE                 = "negative/";
+    private static final String FOLDER_NEUTRAL                  = "neutral/";
 
-    public static final String TRAINING_TEXT_POSITIVE_FILENAMES = "txt/positive_filenames.txt";
-    public static final String TRAINING_TEXT_NEGATIVE_FILENAMES = "txt/negative_filenames.txt";
-    public static final String TRAINING_TEXT_NEUTRAL_FILENAMES  = "txt/neutral_filenames.txt";
+    public static final String PROFANITIES_SINGULAR             = FOLDER_TXT + "profanities_singular.txt";
+    public static final String PROFANITIES_PLURAL               = FOLDER_TXT + "profanities_plural.txt";
+    public static final String WORD_CLASSIFICATIONS             = FOLDER_TXT + "word_classifications.txt";
+    public static final String WORD_CLASSIFICATIONS_PROFANITIES = FOLDER_TXT + "word_classifications_profanities.txt";
+
+    public static final String TRAINING_TEXT_POSITIVE_FILENAMES = FOLDER_TXT + "positive_filenames.txt";
+    public static final String TRAINING_TEXT_NEGATIVE_FILENAMES = FOLDER_TXT + "negative_filenames.txt";
+    public static final String TRAINING_TEXT_NEUTRAL_FILENAMES  = FOLDER_TXT + "neutral_filenames.txt";
 
     @SuppressWarnings("serial")
     private static final ArrayList<String> negations = new ArrayList<String>() {{
-            add("no");
-            add("not");
-            add("neither");
-            add("nor");
-            add("dont");
-            add("wont");
-            add("cant");
-            add("isnt");
-            add("wasnt");
-            add("shouldnt");
-            add("couldnt");
-            add("never");
-            add("aint");
-        }};
+        add("no");
+        add("not");
+        add("neither");
+        add("nor");
+        add("dont");
+        add("wont");
+        add("cant");
+        add("isnt");
+        add("wasnt");
+        add("shouldnt");
+        add("couldnt");
+        add("never");
+        add("aint");
+    }};
 
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
@@ -84,11 +89,17 @@ public class Parser {
      * Counts the number of occurrences of of words in the given texts
      * based on polarity.
      */
-    public ArrayList<WordMap> countWordOccurrences(String filePaths, WordMap wm,
+    public ArrayList<WordMap> countWordOccurrences(String filePaths, WordMap corpus,
             Word.Polarity polarity) {
 
         Scanner sc1, sc2;
         ArrayList<WordMap> wordMaps = new ArrayList<WordMap>();
+
+        // Where the training texts are located
+        String subFolder;
+        if (polarity == Word.Polarity.POSITIVE) subFolder = FOLDER_POSITIVE;
+        else if (polarity == Word.Polarity.NEGATIVE) subFolder = FOLDER_NEGATIVE;
+        else subFolder = FOLDER_NEUTRAL;
 
         try {
             String previousWord = "";
@@ -98,7 +109,7 @@ public class Parser {
             //For each training file
             while (sc1.hasNextLine()) {
                 // Contains one filename per row
-                String currentFile = sc1.nextLine();
+                String currentFile = FOLDER_TXT + subFolder + sc1.nextLine();
 
                 sc2 = new Scanner(new File(currentFile));
                 WordMap textMap = new WordMap(); // Map for this text
@@ -107,35 +118,34 @@ public class Parser {
                     String[] words = sc2.nextLine().split(" ");
 
                     for (int j = 0; j < words.length; j++){
-
                         //Replaces all characters which might cause us to miss the key
-                        words[j] = words[j].replaceAll("\\W", "");
+                        String word = words[j].replaceAll("\\W", "");
 
                         //For each word, if it is in the WordMap increment the count
-                        if (wm.has(words[j])) {
+                        if (corpus.has(word)) {
                             // Store a new word if it has not been created
                             if (!textMap.has(words[j])) {
-                                Word w = copyWord(wm.get(words[j]));
-                                textMap.put(words[j], w);
+                                Word objWord = copyWord(corpus.get(word));
+                                textMap.put(word, objWord);
                             }
 
                             //If the words are negated, flip the count
                             if (polarity == Word.Polarity.POSITIVE &&
                                     negations.contains(previousWord)) { // Negate
-                                textMap.addCountNegative(words[j]);
+                                textMap.addCountNegative(word);
                             } else if (polarity == Word.Polarity.POSITIVE) {
-                                textMap.addCountPositive(words[j]);
+                                textMap.addCountPositive(word);
                             } else if (polarity == Word.Polarity.NEGATIVE &&
                                     negations.contains(previousWord)) { // Negate
-                                textMap.addCountPositive(words[j]);
+                                textMap.addCountPositive(word);
                             } else if (polarity == Word.Polarity.NEGATIVE) {
-                                textMap.addCountNegative(words[j]);
+                                textMap.addCountNegative(word);
                             } else { // Neutral, don't negate
-                                textMap.addCountNeutral(words[j]);
+                                textMap.addCountNeutral(word);
                             }
                         }
 
-                        previousWord = words[j];
+                        previousWord = word;
                     }
                 }
 
@@ -159,13 +169,7 @@ public class Parser {
      * Helper method to create a new Word object from the given word.
      */
     private Word copyWord(Word w1) {
-        String word = w1.word;
-        Word.Subjectivity subjectivity = w1.subjectivity;
-        Word.Position position = w1.position;
-        boolean stemmed = w1.stemmed;
-        Word.Polarity polarity = w1.polarity;
-
-        return new Word(word, subjectivity, position, stemmed, polarity);
+        return new Word(w1.word, w1.subjectivity, w1.position, w1.stemmed, w1.polarity);
     }
 
     /*

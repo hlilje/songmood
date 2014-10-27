@@ -156,7 +156,7 @@ public class Word {
     }
 
     public String toString() {
-        String str = "\"" + word + "\" (strength: " + subjectivity + ", position: " + position +
+        String str = "\"" + word + "\" (subjectivity: " + subjectivity + ", position: " + position +
             ", stemmed: " + stemmed + ", polarity: " + polarity + ")";
 
         str = str + "\n#Positive: " + numPositive + ", #Negative: " + numNegative + ", #Neutral: " +

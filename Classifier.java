@@ -14,7 +14,7 @@ public class Classifier {
     private static final int k = 10; // k value for k-nearest neighbours
 
     private Parser pr;
-    private WordMap korpus;
+    private WordMap corpus ;
     private ArrayList<WordMap> positiveTexts;
     private ArrayList<WordMap> negativeTexts;
     private ArrayList<WordMap> neutralTexts;
@@ -22,8 +22,8 @@ public class Classifier {
     public Classifier() {
         pr = new Parser();
 
-        // Create a new korpus of words to consider in the classification
-        korpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
+        // Create a new corpus of words to consider in the classification
+        corpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
     }
 
     /*
@@ -31,11 +31,11 @@ public class Classifier {
      */
     public void train() {
         positiveTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_POSITIVE_FILENAMES,
-                korpus, Word.Polarity.POSITIVE);
+                corpus, Word.Polarity.POSITIVE);
         negativeTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_NEGATIVE_FILENAMES,
-                korpus, Word.Polarity.NEGATIVE);
+                corpus, Word.Polarity.NEGATIVE);
         neutralTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_NEUTRAL_FILENAMES,
-                korpus, Word.Polarity.NEUTRAL);
+                corpus, Word.Polarity.NEUTRAL);
     }
 
     /*
@@ -73,7 +73,7 @@ public class Classifier {
      */
     private Word.Polarity getNearestNeighbour(ArrayList<Score> scores) {
         Word.Polarity polarity = Word.Polarity.UNKNOWN;
-        int numPositive = 0, numNegative = 0, numNeutral = 0;
+        int numPositive = 0, numNegative = 0, numNeutral = 0, numUnknown = 0;
 
         // Make sure k value is not greater than number of scores
         int limit = scores.size();
@@ -82,22 +82,25 @@ public class Classifier {
         for (int i=0; i<limit; ++i) {
             Score s = scores.get(i);
 
-            // Ignores UNKNOWN polarity
             if (s.polarity == Word.Polarity.POSITIVE)
                 ++numPositive;
             else if (s.polarity == Word.Polarity.NEGATIVE)
                 ++numNegative;
             else if (s.polarity == Word.Polarity.NEUTRAL)
                 ++numNeutral;
+            else // Unknown
+                ++numUnknown;
         }
 
         // Pick the most frequent polarity
-        if (numPositive >= Math.max(numNegative, numNeutral))
+        if (numPositive >= Math.max(Math.max(numNegative, numNeutral), numUnknown))
             polarity = Word.Polarity.POSITIVE;
-        else if (numNegative >= Math.max(numPositive, numNeutral))
+        else if (numNegative >= Math.max(Math.max(numPositive, numNeutral), numUnknown))
             polarity = Word.Polarity.NEGATIVE;
-        else if (numNeutral >= Math.max(numPositive, numNegative))
+        else if (numNeutral >= Math.max(Math.max(numPositive, numNegative), numUnknown))
             polarity = Word.Polarity.NEUTRAL;
+        else if (numUnknown >= Math.max(Math.max(numPositive, numNegative), numNeutral))
+            polarity = Word.Polarity.UNKNOWN;
 
         return polarity;
     }
@@ -114,7 +117,11 @@ public class Classifier {
         for (WordMap wm : texts) {
             double score = scoreText(fileName, polarity, wm);
 
-            scores.add(new Score(score, polarity));
+            // Consider a score of 0 as unknown
+            if (score == 0.0d)
+                scores.add(new Score(score, Word.Polarity.UNKNOWN));
+            else
+                scores.add(new Score(score, polarity));
         }
 
         return scores;
@@ -126,7 +133,6 @@ public class Classifier {
      * Returns the classification (score).
      */
     private double scoreText(String fileName, Word.Polarity polarity, WordMap wm) {
-
         int totalCount = 0;
         double classification = 0.0d;
 
@@ -134,18 +140,23 @@ public class Classifier {
         ArrayList<String> tokens = pr.readTokens(fileName);
 
         for (String word : tokens) {
-            //For each word, check frequency of word
-            if (polarity == Word.Polarity.POSITIVE) {
-                classification += korpus.getFrequencyPositive(word);
-            } else if (polarity == Word.Polarity.NEGATIVE) {
-                classification += korpus.getFrequencyNegative(word);
-            } else { // Neutral
-                classification += korpus.getFrequencyNeutral(word);
+            if (wm.has(word)) {
+                //For each word, check frequency of word
+                if (polarity == Word.Polarity.POSITIVE) {
+                    classification += wm.getFrequencyPositive(word);
+                } else if (polarity == Word.Polarity.NEGATIVE) {
+                    classification += wm.getFrequencyNegative(word);
+                } else { // Neutral
+                    classification += wm.getFrequencyNeutral(word);
+                }
             }
 
             ++totalCount;
         }
 
-        return classification / totalCount;
+        // Should not happen
+        if (totalCount == 0) return 0.0d;
+
+        return classification / (double) totalCount;
     }
 }
