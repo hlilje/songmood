@@ -14,7 +14,7 @@ public class Classifier {
     private static final int k = 10; // k value for k-nearest neighbours
 
     private Parser pr;
-    private WordMap korpus;
+    private WordMap corpus ;
     private ArrayList<WordMap> positiveTexts;
     private ArrayList<WordMap> negativeTexts;
     private ArrayList<WordMap> neutralTexts;
@@ -22,8 +22,8 @@ public class Classifier {
     public Classifier() {
         pr = new Parser();
 
-        // Create a new korpus of words to consider in the classification
-        korpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
+        // Create a new corpus of words to consider in the classification
+        corpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
     }
 
     /*
@@ -31,11 +31,11 @@ public class Classifier {
      */
     public void train() {
         positiveTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_POSITIVE_FILENAMES,
-                korpus, Word.Polarity.POSITIVE);
+                corpus , Word.Polarity.POSITIVE);
         negativeTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_NEGATIVE_FILENAMES,
-                korpus, Word.Polarity.NEGATIVE);
+                corpus , Word.Polarity.NEGATIVE);
         neutralTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_NEUTRAL_FILENAMES,
-                korpus, Word.Polarity.NEUTRAL);
+                corpus , Word.Polarity.NEUTRAL);
     }
 
     /*
@@ -136,11 +136,11 @@ public class Classifier {
         for (String word : tokens) {
             //For each word, check frequency of word
             if (polarity == Word.Polarity.POSITIVE) {
-                classification += korpus.getFrequencyPositive(word);
+                classification += corpus .getFrequencyPositive(word);
             } else if (polarity == Word.Polarity.NEGATIVE) {
-                classification += korpus.getFrequencyNegative(word);
+                classification += corpus .getFrequencyNegative(word);
             } else { // Neutral
-                classification += korpus.getFrequencyNeutral(word);
+                classification += corpus .getFrequencyNeutral(word);
             }
 
             ++totalCount;
