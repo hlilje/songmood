@@ -19,7 +19,22 @@ public class Parser {
     public static final String TRAINING_TEXT_NEGATIVE_FILENAMES = "txt/negative_filenames.txt";
     public static final String TRAINING_TEXT_NEUTRAL_FILENAMES  = "txt/neutral_filenames.txt";
 
-    private static final ArrayList<String> negations = new ArrayList<String>();
+    @SuppressWarnings("serial")
+    private static final ArrayList<String> negations = new ArrayList<String>() {{
+            add("no");
+            add("not");
+            add("neither");
+            add("nor");
+            add("dont");
+            add("wont");
+            add("cant");
+            add("isnt");
+            add("wasnt");
+            add("shouldnt");
+            add("couldnt");
+            add("never");
+            add("aint");
+        }};
 
     // 0-indexed columns in word classifications file
     private static int colSubj     = 0;
@@ -29,21 +44,7 @@ public class Parser {
     private static int colStemmed  = 4;
     private static int colPolarity = 5;
 
-    public Parser() {
-        negations.add("no");
-        negations.add("not");
-        negations.add("neither");
-        negations.add("nor");
-        negations.add("dont");
-        negations.add("wont");
-        negations.add("cant");
-        negations.add("isnt");
-        negations.add("wasnt");
-        negations.add("shouldnt");
-        negations.add("couldnt");
-        negations.add("never");
-        negations.add("aint");
-    }
+    public Parser() {}
 
     /*
      * Takes a file of word classifications and parses them
@@ -327,8 +328,7 @@ public class Parser {
                 sc2 = new Scanner(sc1.nextLine());
 
                 while (sc2.hasNext()) {
-                    String strWord = sc2.next().replaceAll("\\W", "")
-                        .toLowerCase();
+                    String strWord = sc2.next().replaceAll("\\W", "").toLowerCase();
                     wordList.add(strWord);
                 }
 
