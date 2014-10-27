@@ -16,4 +16,9 @@ public class Score implements Comparable<Score> {
         Double d2 = new Double(anotherScore.score);
         return d1.compareTo(d2);
     }
+
+    @Override
+    public String toString() {
+        return "(" + score + ", " + polarity + ")";
+    }
 } 

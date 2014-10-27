@@ -67,7 +67,7 @@ public class Parser {
         return wm;
     }
 
-    public ArrayList<WordMap> countWordOccurences(String [] filePaths) {
+    public ArrayList<WordMap> countWordOccurences(String [] filePaths, WordMap wm) {
 
         Scanner sc1, sc2;
         ArrayList<WordMap> wordMaps = new ArrayList<WordMap>();
@@ -82,7 +82,7 @@ public class Parser {
             //For each training file
             for(int i = 0; i < filePaths.length; i++){
                 sc1 = new Scanner(new File(filePaths[i]));
-                WordMap wm = new WordMap();
+                WordMap textMap = new WordMap(); // Map for this text
 
                 while (sc1.hasNextLine()) {
                     String[] words = sc1.nextLine().split(" ");
@@ -93,13 +93,19 @@ public class Parser {
                         words[j] = words[j].replaceAll("\\W", "");
 
                         //For each word, if it is in the WordMap increment the count
-                        if(wm.has(words[j])){
-                            wm.addCount(words[j]);
+                        if(wm.has(words[j])) {
+                            // Store a new word if it has not been created
+                            if(!textMap.has(words[j])) {
+                                Word w = copyWord(wm.get(words[j]));
+                                textMap.put(words[j], w);
+                            }
+
+                            textMap.addCount(words[j]);
                         }
                     }
                 }
 
-                wordMaps.add(wm);
+                wordMaps.add(textMap);
 
                 sc1.close();
             }
@@ -112,6 +118,19 @@ public class Parser {
         }
 
         return wordMaps;
+    }
+
+    /*
+     * Helper method to create a new Word object from the given word.
+     */
+    private Word copyWord(Word w1) {
+        String word = w1.word;
+        Word.Subjectivity subjectivity = w1.subjectivity;
+        Word.Position position = w1.position;
+        boolean stemmed = w1.stemmed;
+        Word.Polarity polarity = w1.polarity;
+
+        return new Word(word, subjectivity, position, stemmed, polarity);
     }
 
     /*

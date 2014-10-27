@@ -55,6 +55,8 @@ public class WordMap {
      * Returns the total frequency of the given word.
      */
     public double getFrequency(String word){
+        if (totalCount == 0) return 0.0d;
+
         return ((double) getCount(word.toLowerCase())) / ((double) totalCount);
     }
 

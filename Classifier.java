@@ -11,24 +11,27 @@ import java.util.Set;
  */
 public class Classifier {
 
-    public static int k = 10; // k value for k-nearest neighbours
+    private static final int k = 10; // k value for k-nearest neighbours
 
     private Parser pr;
+    private WordMap korpus;
     private ArrayList<WordMap> positiveTexts;
     private ArrayList<WordMap> negativeTexts;
     private ArrayList<WordMap> neutralTexts;
 
     public Classifier() {
         pr = new Parser();
+        // Create a new korpus of words to consider in the classification
+        korpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
     }
 
     /*
      * Trains the variables of the Classifier according to the training data.
      */
     public void train() {
-        positiveTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE);
-        negativeTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEGATIVE);
-        neutralTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL);
+        positiveTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_POSITIVE, korpus);
+        negativeTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEGATIVE, korpus);
+        neutralTexts = pr.countWordOccurences(Parser.TRAINING_TEXT_NEUTRAL, korpus);
     }
 
     /*
@@ -54,6 +57,8 @@ public class Classifier {
         // Sort the Score tuples on score in descending order
         Collections.sort(mergedScores);
         Collections.reverse(mergedScores);
+
+        System.out.println(mergedScores);
 
         return getNearestNeighbour(mergedScores);
     }
@@ -131,9 +136,4 @@ public class Classifier {
 
         return classification / totalCount;
     }
-
-    /*
-     * Scales a profanity according to its severity.
-     */
-    //private double profanitySeverity() {}
 }
