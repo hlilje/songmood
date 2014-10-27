@@ -21,6 +21,7 @@ public class Classifier {
 
     public Classifier() {
         pr = new Parser();
+
         // Create a new korpus of words to consider in the classification
         korpus = pr.generateWordMap(Parser.WORD_CLASSIFICATIONS);
     }
@@ -61,7 +62,7 @@ public class Classifier {
         Collections.sort(mergedScores);
         Collections.reverse(mergedScores);
 
-        System.out.println(mergedScores);
+        System.out.println(mergedScores); // DEBUG
 
         return getNearestNeighbour(mergedScores);
     }
@@ -90,6 +91,7 @@ public class Classifier {
                 ++numNeutral;
         }
 
+        // Pick the most frequent polarity
         if (numPositive >= Math.max(numNegative, numNeutral))
             polarity = Word.Polarity.POSITIVE;
         else if (numNegative >= Math.max(numPositive, numNeutral))
@@ -108,6 +110,7 @@ public class Classifier {
             ArrayList<WordMap> texts, Word.Polarity polarity) {
         ArrayList<Score> scores = new ArrayList<Score>();
 
+        // Go through all texts and create Score tuples with their polarity
         for (WordMap wm : texts) {
             double score = scoreText(fileName, polarity, wm);
 

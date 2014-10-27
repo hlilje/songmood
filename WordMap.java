@@ -79,17 +79,21 @@ public class WordMap {
     }
 
     /*
-     * Returns the postive frequency of the given word.
+     * Returns the postive - negative frequency of the given word.
      */
     public double getFrequencyPositive(String word){
-        return (double) getCountPositive(word.toLowerCase()) / (double) totalCount;
+        int count = getCountPositive(word.toLowerCase()) - getCountNegative(word.toLowerCase());
+
+        return (double) count / (double) totalCount;
     }
 
     /*
-     * Returns the negative frequency of the given word.
+     * Returns the negative - positive frequency of the given word.
      */
     public double getFrequencyNegative(String word){
-        return (double) getCountNegative(word.toLowerCase()) / (double) totalCount;
+        int count = getCountNegative(word.toLowerCase()) - getCountPositive(word.toLowerCase());
+
+        return (double) count / (double) totalCount;
     }
 
     /*
