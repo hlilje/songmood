@@ -31,11 +31,11 @@ public class Classifier {
      */
     public void train() {
         positiveTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_POSITIVE_FILENAMES,
-                corpus , Word.Polarity.POSITIVE);
+                corpus, Word.Polarity.POSITIVE);
         negativeTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_NEGATIVE_FILENAMES,
-                corpus , Word.Polarity.NEGATIVE);
+                corpus, Word.Polarity.NEGATIVE);
         neutralTexts = pr.countWordOccurrences(Parser.TRAINING_TEXT_NEUTRAL_FILENAMES,
-                corpus , Word.Polarity.NEUTRAL);
+                corpus, Word.Polarity.NEUTRAL);
     }
 
     /*
@@ -92,11 +92,11 @@ public class Classifier {
         }
 
         // Pick the most frequent polarity
-        if (numPositive >= Math.max(numNegative, numNeutral))
+        if (numPositive > 0 && numPositive >= Math.max(numNegative, numNeutral))
             polarity = Word.Polarity.POSITIVE;
-        else if (numNegative >= Math.max(numPositive, numNeutral))
+        else if (numNegative > 0 && numNegative >= Math.max(numPositive, numNeutral))
             polarity = Word.Polarity.NEGATIVE;
-        else if (numNeutral >= Math.max(numPositive, numNegative))
+        else if (numNeutral > 0 && numNeutral >= Math.max(numPositive, numNegative))
             polarity = Word.Polarity.NEUTRAL;
 
         return polarity;
@@ -114,7 +114,11 @@ public class Classifier {
         for (WordMap wm : texts) {
             double score = scoreText(fileName, polarity, wm);
 
-            scores.add(new Score(score, polarity));
+            // Consider a score of 0 as unknown
+            if (score == 0.0d)
+                scores.add(new Score(score, Word.Polarity.UNKNOWN));
+            else
+                scores.add(new Score(score, polarity));
         }
 
         return scores;
@@ -126,7 +130,6 @@ public class Classifier {
      * Returns the classification (score).
      */
     private double scoreText(String fileName, Word.Polarity polarity, WordMap wm) {
-
         int totalCount = 0;
         double classification = 0.0d;
 
@@ -134,18 +137,23 @@ public class Classifier {
         ArrayList<String> tokens = pr.readTokens(fileName);
 
         for (String word : tokens) {
-            //For each word, check frequency of word
-            if (polarity == Word.Polarity.POSITIVE) {
-                classification += corpus .getFrequencyPositive(word);
-            } else if (polarity == Word.Polarity.NEGATIVE) {
-                classification += corpus .getFrequencyNegative(word);
-            } else { // Neutral
-                classification += corpus .getFrequencyNeutral(word);
+            if (wm.has(word)) {
+                //For each word, check frequency of word
+                if (polarity == Word.Polarity.POSITIVE) {
+                    classification += wm.getFrequencyPositive(word);
+                } else if (polarity == Word.Polarity.NEGATIVE) {
+                    classification += wm.getFrequencyNegative(word);
+                } else { // Neutral
+                    classification += wm.getFrequencyNeutral(word);
+                }
             }
 
             ++totalCount;
         }
 
-        return classification / totalCount;
+        // Should not happen
+        if (totalCount == 0) return 0.0d;
+
+        return classification / (double) totalCount;
     }
 }
