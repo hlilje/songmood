@@ -78,7 +78,9 @@ public class Classifier {
 
         // Make sure k value is not greater than number of scores
         int limit = scores.size();
-        if (k < scores.size()) limit = k;
+        if (k < scores.size()) {
+            limit = k;
+        }
 
         for (int i=0; i<limit; ++i) {
             Score s = scores.get(i);
@@ -114,6 +116,9 @@ public class Classifier {
         }
 
         DecimalFormat df = new DecimalFormat("0.0#");
+
+        System.out.println("Positive: " + df.format(numPositive/(double) k) + ", Neutral: " + df.format(numNeutral/(double) k) +
+            ", Negative " + df.format(numNegative/(double) k) + ", Unknown " + df.format(numUnknown/(double) k));
 
         System.out.println("Match: " + df.format(majority/(double) k) + " (" + majority + "/" + k + ")");
 
