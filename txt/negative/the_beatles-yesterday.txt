@@ -1,23 +1,16 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
-{\fonttbl\f0\fnil\fcharset0 Verdana;}
-{\colortbl;\red255\green255\blue255;\red193\green192\blue213;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\deftab720
-\pard\pardeftab720
-
-\f0\fs26 \cf0 \cb2 Yesterday, all my troubles seemed so far away\
-Now it looks as though they're here to stay\
-Oh, I believe in yesterday\
-Suddenly, I'm not half the man I used to be\
-There's a shadow hanging over me.\
-Oh, yesterday came suddenly\
-Why she had to go I don't know she wouldn't say\
-I said something wrong, now I long for yesterday\
-Yesterday, love was such an easy game to play\
-Now I need a place to hide away\
-Oh, I believe in yesterday\
-Why she had to go I don't know she wouldn't say\
-I said something wrong, now I long for yesterday\
-Yesterday, love was such an easy game to play\
-Now I need a place to hide away\
-Oh, I believe in yesterday}
+Yesterday, all my troubles seemed so far away
+Now it looks as though they're here to stay
+Oh, I believe in yesterday
+Suddenly, I'm not half the man I used to be
+There's a shadow hanging over me.
+Oh, yesterday came suddenly
+Why she had to go I don't know she wouldn't say
+I said something wrong, now I long for yesterday
+Yesterday, love was such an easy game to play
+Now I need a place to hide away
+Oh, I believe in yesterday
+Why she had to go I don't know she wouldn't say
+I said something wrong, now I long for yesterday
+Yesterday, love was such an easy game to play
+Now I need a place to hide away
+Oh, I believe in yesterday
