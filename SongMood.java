@@ -1,6 +1,6 @@
 import java.text.DecimalFormat;
 
-public class Haddockify {
+public class SongMood {
 
     private static Parser pr;
     private static Classifier cl;
