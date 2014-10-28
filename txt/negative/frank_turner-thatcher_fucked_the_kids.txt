@@ -1,43 +1,36 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
-{\fonttbl\f0\fnil\fcharset0 Verdana;}
-{\colortbl;\red255\green255\blue255;\red193\green192\blue213;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\deftab720
-\pard\pardeftab720
-
-\f0\fs26 \cf0 \cb2 Whatever happened to childhood?\
-We're all scared of the kids in our neighborhood;\
-They're not small, charming and harmless,\
-They're a violent bunch of bastard little shits.\
-And anyone who looks younger than me\
-Makes me check for my wallet, my phone and my keys,\
-And I'm tired of being tired out\
-Always being on the lookout for thieving gits.\
-We're all wondering how we ended up so scared;\
-We spent ten long years teaching our kids not to care\
-And that "there's no such thing as society" anyway,\
-And all the rich folks act surprised\
-When all sense of community dies,\
-But you just closed your eyes to the other side \
-Of all the things that she did.\
-Thatcher fucked the kids.\
-And it seems a little bit rich to me,\
-The way the rich only ever talk of charity\
-In times like the seventies, the broken down economy\
-Meant even the upper tier was needing some help.\
-But as soon as things look brighter,\
-Yeah the grin gets wider and the grip gets tighter,\
-And for every teenage tracksuit mugger\
-There's a guy in a suit who wouldn't lift a finger for anybody else.\
-You've got a generation raised on the welfare state,\
-Enjoyed all its benefits and did just great,\
-But as soon as they were settled as the richest of the rich,\
-They kicked away the ladder, told the rest of us that life's a bitch.\
-And it's no surprise that all the fuck-ups\
-Didn't show up until the kids had grown up.\
-But when no one ever smiles or ever helps a stranger,\
-Is it any fucking wonder our society's in danger of collapse?\
-So all the kids are bastards,\
-But don't blame them, yeah, they learn by example.\
-Blame the folks who sold the future for the highest bid:\
-That's right, Thatcher fucked the kids.}
+Whatever happened to childhood?
+We're all scared of the kids in our neighborhood;
+They're not small, charming and harmless,
+They're a violent bunch of bastard little shits.
+And anyone who looks younger than me
+Makes me check for my wallet, my phone and my keys,
+And I'm tired of being tired out
+Always being on the lookout for thieving gits.
+We're all wondering how we ended up so scared;
+We spent ten long years teaching our kids not to care
+And that "there's no such thing as society" anyway,
+And all the rich folks act surprised
+When all sense of community dies,
+But you just closed your eyes to the other side
+Of all the things that she did.
+Thatcher fucked the kids.
+And it seems a little bit rich to me,
+The way the rich only ever talk of charity
+In times like the seventies, the broken down economy
+Meant even the upper tier was needing some help.
+But as soon as things look brighter,
+Yeah the grin gets wider and the grip gets tighter,
+And for every teenage tracksuit mugger
+There's a guy in a suit who wouldn't lift a finger for anybody else.
+You've got a generation raised on the welfare state,
+Enjoyed all its benefits and did just great,
+But as soon as they were settled as the richest of the rich,
+They kicked away the ladder, told the rest of us that life's a bitch.
+And it's no surprise that all the fuck-ups
+Didn't show up until the kids had grown up.
+But when no one ever smiles or ever helps a stranger,
+Is it any fucking wonder our society's in danger of collapse?
+So all the kids are bastards,
+But don't blame them, yeah, they learn by example.
+Blame the folks who sold the future for the highest bid:
+That's right, Thatcher fucked the kids.
