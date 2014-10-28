@@ -3,15 +3,12 @@ bill_withers-lovely_day.txt
 bobby_mcferrin-dont_worry_be_happy.txt
 bob_marley-three_little_birds.txt
 cat_stevens-peace_train.txt
-electric_light_orchestra-hold_on_tight.txt
 ella_fitzgerald-ac_cent_thcu_ate_the_positive.txt
 isley_brothers-put_a_little_love_in_your_heart.txt
-johnny_nash-i_can_see_clearly_now.txt
 katrina_and_the_waves-walking_on_sunshine.txt
 louis_armstrong-what_a_wonderful_world.txt
 lynyrd_skynyrd-simple_man.txt
 martha_and_the_vandellas-dancing_in_the_streets.txt
-marvin_gaye-whats_going_on.txt
 neil_young-heart_of_gold.txt
 queen-dont_stop_me_now.txt
 simon_and_garfunkel-the_59th_street_bridge_song_feelin_groovy.txt
@@ -19,7 +16,6 @@ sly_and_the_family_stone-everyday_people.txt
 stevie_wonder-isnt_she_lovely.txt
 the_beatles-all_you_need_is_love.txt
 the_carpenters-top_of_the_world.txt
-the_flaming_lips-do_you_realize.txt
 the_ojays-love_train.txt
 the_rascals-a_beautiful_morning.txt
 u2-beautiful_day.txt
