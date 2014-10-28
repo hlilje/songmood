@@ -62,7 +62,7 @@ public class Classifier {
         Collections.sort(mergedScores);
         Collections.reverse(mergedScores);
 
-        System.out.println(mergedScores); // DEBUG
+        //System.out.println(mergedScores); // DEBUG
 
         return getNearestNeighbour(mergedScores);
     }
@@ -82,25 +82,37 @@ public class Classifier {
         for (int i=0; i<limit; ++i) {
             Score s = scores.get(i);
 
-            if (s.polarity == Word.Polarity.POSITIVE)
+            if (s.polarity == Word.Polarity.POSITIVE){
                 ++numPositive;
-            else if (s.polarity == Word.Polarity.NEGATIVE)
+            }
+            else if (s.polarity == Word.Polarity.NEGATIVE){
                 ++numNegative;
-            else if (s.polarity == Word.Polarity.NEUTRAL)
+            }
+            else if (s.polarity == Word.Polarity.NEUTRAL){
                 ++numNeutral;
-            else // Unknown
+            }
+            else{ // Unknown
                 ++numUnknown;
+            }
         }
 
+        int majority = Math.max(Math.max(Math.max(numNegative, numPositive), numNeutral), numUnknown);
+
         // Pick the most frequent polarity
-        if (numPositive >= Math.max(Math.max(numNegative, numNeutral), numUnknown))
+        if (numPositive == majority){
             polarity = Word.Polarity.POSITIVE;
-        else if (numNegative >= Math.max(Math.max(numPositive, numNeutral), numUnknown))
+        }
+        else if (numNegative == majority){
             polarity = Word.Polarity.NEGATIVE;
-        else if (numNeutral >= Math.max(Math.max(numPositive, numNegative), numUnknown))
+        }
+        else if (numNeutral == majority){
             polarity = Word.Polarity.NEUTRAL;
-        else if (numUnknown >= Math.max(Math.max(numPositive, numNegative), numNeutral))
+        }
+        else if (numUnknown == majority){
             polarity = Word.Polarity.UNKNOWN;
+        }
+
+        System.out.println("Confidence: " + majority + " / " + k);
 
         return polarity;
     }
