@@ -15,8 +15,6 @@ public class Parser {
     private static final String FOLDER_NEGATIVE                 = "negative/";
     private static final String FOLDER_NEUTRAL                  = "neutral/";
 
-    public static final String PROFANITIES_SINGULAR             = FOLDER_TXT + "profanities_singular.txt";
-    public static final String PROFANITIES_PLURAL               = FOLDER_TXT + "profanities_plural.txt";
     public static final String WORD_CLASSIFICATIONS             = FOLDER_TXT + "word_classifications.txt";
     public static final String WORD_CLASSIFICATIONS_PROFANITIES = FOLDER_TXT + "word_classifications_profanities.txt";
 
@@ -173,90 +171,6 @@ public class Parser {
     }
 
     /*
-     * Reads one line from the source text file and returnes the word
-     * in an ArrayList.
-     * Should be called repeatedly by external method with Scanner to
-     * avoid opening/closing for each line.
-     * Returns true if successful.
-     */
-    public ArrayList<String> getSourceLineWords(Scanner sc1) {
-        ArrayList<String> words = new ArrayList<String>();
-
-        Scanner sc2;
-
-        try {
-            if (sc1.hasNextLine()) {
-                sc2 = new Scanner(sc1.nextLine());
-
-                while (sc2.hasNext()) {
-                    words.add(sc2.next().toLowerCase());
-                }
-                sc2.close();
-            }
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-        sc1.close();
-        return words;
-    }
-
-    /*
-     * Reads all the singular Haddock profanities into the ProfanityGenerator.
-     * Returns true if successful.
-     */
-    public boolean readProfanitiesSingular(ProfanityGenerator pg) {
-        boolean successful = false;
-
-        Scanner sc;
-
-        try {
-            sc = new Scanner(new File(PROFANITIES_SINGULAR));
-
-            while (sc.hasNextLine()) {
-                String profanity = sc.nextLine();
-                pg.addProfanitySingular(profanity);
-            }
-
-            successful = true;
-            sc.close();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-        return successful;
-    }
-
-    /*
-     * Reads all the plural Haddock profanities into the ProfanityGenerator.
-     * Returns true if successful.
-     */
-    public boolean readProfanitiesPlural(ProfanityGenerator pg) {
-        boolean successful = false;
-
-        Scanner sc;
-
-        try {
-            sc = new Scanner(new File(PROFANITIES_PLURAL));
-
-            while (sc.hasNextLine()) {
-                String profanity = sc.nextLine();
-                pg.addProfanityPlural(profanity);
-            }
-
-            successful = true;
-            sc.close();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-        return successful;
-    }
-
-    /*
      * Creates a Word object from a line in the format of
      * word classifications.
      */
@@ -282,37 +196,6 @@ public class Parser {
       }
 
       return objWord;
-    }
-
-    /*
-     * Returns a Word object created with the info stored in the
-     * classifications text file.
-     * Returns null if the word is not found.
-     */
-    public Word getWord(String strWord) {
-        Word objWord = null;
-
-        Scanner sc;
-
-        try {
-            sc = new Scanner(new File(WORD_CLASSIFICATIONS_PROFANITIES));
-
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-
-                objWord = getWordFromLine(line);
-
-                // Check if line contains word
-                if (objWord.word.equals(strWord)) break;
-            }
-
-            sc.close();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-        return objWord;
     }
 
     /*
