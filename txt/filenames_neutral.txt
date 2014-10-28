@@ -9,14 +9,12 @@ kings_of_leon-knocked_up.txt
 lcd_soundsystem-losing_my_edge.txt
 mgmt-kids.txt
 n.e.r.d.-life_as_a_fish.txt
-nickelback-photopraph.txt
 owl_city-fireflies.txt
 queen-father_to_son.txt
 radiohead-anyone_can_play_guitar.txt
 red_hot_chili_peppers-californication.txt
 regina_spektor-all_the_rowboats.txt
 robyn-fembot.txt
-royksopp-this_must_be_it.txt
 sparks-this_town_aint_big_enough_for_both_of_us.txt
 the_beatles-i_am_the_walrus.txt
 the_knife-rock_classics.txt
