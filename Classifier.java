@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.text.DecimalFormat;
 
 /*
  * Classifier which determines which class a document belongs to.
@@ -112,7 +113,9 @@ public class Classifier {
             polarity = Word.Polarity.UNKNOWN;
         }
 
-        System.out.println("Confidence: " + majority + " / " + k);
+        DecimalFormat df = new DecimalFormat("0.0#");
+
+        System.out.println("Match: " + df.format(majority/(double) k) + " (" + majority + "/" + k + ")");
 
         return polarity;
     }
