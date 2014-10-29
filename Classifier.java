@@ -15,7 +15,7 @@ public class Classifier {
     private static final int k = 10; // k value for k-nearest neighbours
 
     private Parser pr;
-    private WordMap corpus ;
+    private WordMap corpus;
     private ArrayList<WordMap> positiveTexts;
     private ArrayList<WordMap> negativeTexts;
     private ArrayList<WordMap> neutralTexts;
